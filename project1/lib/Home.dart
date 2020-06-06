@@ -24,7 +24,7 @@ class MyCard extends State<Home>{
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('Reminder'),
-          backgroundColor: Colors.deepOrange,
+          backgroundColor: blue,
         ),
         body: new Container(
             child: new ListView(
@@ -35,7 +35,7 @@ class MyCard extends State<Home>{
         floatingActionButton: new FloatingActionButton(
             elevation: 0.0,
             child: new Icon(Icons.add_circle),
-            backgroundColor: new Color(0xFFE57373),
+            backgroundColor: blue,
             onPressed: (){
               Navigator.push(
                   context,

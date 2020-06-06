@@ -124,17 +124,11 @@ class FirstPage extends State<FirstPageState>{
 
   @override
   Widget build(BuildContext context) {
-//    if(cekDB==false){
-//      BuatDb();
-//      cekDB=true;
-//      print(cekDB);
-//    }
-
     notif();
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("QUINGET"),
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: blue,
       ),
       body: new Padding(
         padding: EdgeInsets.all(7.0),
@@ -169,11 +163,11 @@ class FirstPage extends State<FirstPageState>{
                   child: new Container(
                     width: 345,
                     decoration: BoxDecoration(
-                        color: Colors.deepOrange,
+                        color: blue,
                         borderRadius: BorderRadius.all(Radius.circular(50))
                     ),
                     child: new RaisedButton(
-                      color: Colors.yellow,
+                      color: blue,
                       onPressed: () async =>{
 //                    await OpenDb(),
 //
@@ -182,7 +176,7 @@ class FirstPage extends State<FirstPageState>{
                       child: new Text(
                         "Cek dan tambahkan reminder di sini!",
                         style: TextStyle(
-                            color: Colors.black,
+                            color: black,
                             fontSize: 17
                         ),
                       ),
@@ -194,11 +188,11 @@ class FirstPage extends State<FirstPageState>{
                   child: new Container(
                     width: 345,
                     decoration: BoxDecoration(
-                        color: Colors.deepOrange,
+                        color: blue,
                         borderRadius: BorderRadius.all(Radius.circular(50))
                     ),
                     child: new RaisedButton(
-                      color: Colors.yellow,
+                      color: blue,
                       onPressed: () async =>{
                         await historyFirestore(),
                         Navigator.pushNamed(context, '/history')
@@ -206,7 +200,7 @@ class FirstPage extends State<FirstPageState>{
                       child: new Text(
                         "Lihat kegiatan apa saja yang pernah kamu lakukan",
                         style: TextStyle(
-                            color: Colors.black,
+                            color: black,
                             fontSize: 17
                         ),
                       ),

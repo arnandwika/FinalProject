@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: Colors.redAccent),
+            decoration: BoxDecoration(color: blue),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       CircleAvatar(
-                        backgroundColor: Colors.white,
+                        backgroundColor: white,
                         radius: 50.0,
                         child: Image.asset('img/quinget.png'),
                       ),
@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       Text(
                         "QUINGET REMINDER",
                         style: TextStyle(
-                            color: Colors.white,
+                            color: white,
                             fontWeight: FontWeight.bold,
                             fontSize: 24.0),
                       )

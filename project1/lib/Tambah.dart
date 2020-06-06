@@ -14,71 +14,164 @@ class Tambah extends State<StateTambah>{
   void initState() {
     super.initState();
   }
-
   String tanggalJam=" ";
   ObjectReminder objectInsert;
   final _JudulEditingController = TextEditingController();
   final _IsiEditingController = TextEditingController();
-  final format = DateFormat("yyyy-MM-dd HH:mm");
+  final format = DateFormat("d MMMM y HH:mm");
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.deepOrange,
+        title: Text('Tambah Acara'),
+        backgroundColor: blue,
       ),
       body: new Padding(padding: EdgeInsets.all(15.0),
-        child: new Column(
+        child: ListView(
           children: <Widget>[
-            Text("Judul:"),
-            new TextField(
-              controller: _JudulEditingController,
-              decoration: InputDecoration(
-                hintText:"Judul",
-              ),
+            Text(
+              "Detail Acara Baru: ",
+                style: TextStyle(fontSize: 23,fontWeight: FontWeight.bold)
             ),
-            Text("Tanggal & Waktu:"),
-            new DateTimeField(
-              format: format,
-              onShowPicker: (context, currentValue) async {
-                final date = await showDatePicker(
-                    context: context,
-                    firstDate: DateTime(1900),
-                    initialDate: currentValue ?? DateTime.now(),
-                    lastDate: DateTime(2100));
-                if (date != null) {
-                  final time = await showTimePicker(
-                    context: context,
-                    initialTime:
-                    TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
-                  );
-                  tanggalJam = (DateTimeField.combine(date, time)).toString();
-                  return DateTimeField.combine(date, time);
-                } else {
-                  return currentValue;
-                }
-              },
+            SizedBox(
+              height: 15,
             ),
-            Text("Deskripsi:"),
-            new TextField(
-              controller: _IsiEditingController,
-              maxLines: 5,
-              decoration: InputDecoration(
-                hintText: "Description",
-              ),
+            new Column(
+              children: <Widget>[
+                new TextFormField(
+                  controller: _JudulEditingController,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: "Nama Acara",
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: gray,
+                        width: 2.0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: blue,
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                new DateTimeField(
+                  format: format,
+                  style: (
+                    TextStyle(
+                      fontSize: 20,
+                    )
+                  ),
+                  decoration: InputDecoration(
+                    labelText: 'Tanggal & Jam Acara',
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: gray,
+                        width: 2.0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: blue,
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                  onShowPicker: (context, currentValue) async {
+                    final date = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime(1900),
+                        initialDate: currentValue ?? DateTime.now(),
+                        lastDate: DateTime(2100));
+                    if (date != null) {
+                      final time = await showTimePicker(
+                        context: context,
+                        initialTime:
+                        TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+                      );
+                      tanggalJam = (DateTimeField.combine(date, time)).toString();
+                      return DateTimeField.combine(date, time);
+                    } else {
+                      return currentValue;
+                    }
+                  },
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                new TextFormField(
+                  controller: _IsiEditingController,
+                  maxLines: 3,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: 'Deskripsi Acara',
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: gray,
+                        width: 2.0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: blue,
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                new TextFormField(
+//                  controller: _LocEditingController,
+                  maxLines: null,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: 'Lokasi Acara',
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: gray,
+                        width: 2.0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: blue,
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                RaisedButton(
+                  color: blue,
+                  child: Text("Tambah Acara", style: TextStyle(color: white),),
+                  onPressed: () async {
+                    await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text);
+                    await OpenDb();
+                    await getFirestore();
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/home');
+                  },
+                )
+              ],
             ),
-            RaisedButton(
-              child: Text("Save"),
-              onPressed: () async {
-                await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text);
-                await OpenDb();
-                await getFirestore();
-                Navigator.pop(context);
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/home');
-              },
-            )
           ],
-        ),
+        )
       ),
     );
   }

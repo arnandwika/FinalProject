@@ -30,7 +30,7 @@ class ReminderHistory extends StatelessWidget{
       OpenDb();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: blue,
       ),
       body: Container(
         child: Column(
@@ -71,7 +71,7 @@ class ReminderHistory extends StatelessWidget{
                         Navigator.pushNamed(context, '/history'),
 
                       },
-                      color: Colors.deepOrangeAccent,
+                      color: blue,
                       shape: RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(18.0),
                       ),

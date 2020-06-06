@@ -82,7 +82,7 @@ class EditState extends State<Edit>{
     TextIsiController.text = this.deskripsi;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: blue,
       ),
       body: Container(
         child: Column(
@@ -130,8 +130,6 @@ class EditState extends State<Edit>{
             ),
             RaisedButton(
               onPressed: () async =>{
-//                print(TextJudulController.text),
-//                h1 = HasilEdit(judul: TextJudulController.text, tanggal: TextTanggalController.text, isi: TextIsiController.text),
                 await updateDb(id, TextJudulController.text, tanggalJam, TextIsiController.text),
                 await editFirestore(id, TextJudulController.text, tanggalJam, TextIsiController.text),
                 await OpenDb(),

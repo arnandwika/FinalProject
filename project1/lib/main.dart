@@ -27,6 +27,10 @@ Color fix;
 Color hijau = Colors.lightGreenAccent[400];
 Color amber = Colors.amber;
 Color merah = Colors.red;
+Color blue = Colors.blue;
+Color black = Colors.black;
+Color white = Colors.white;
+Color gray = Colors.black12;
 int id=0;
 
 class MyApp extends StatelessWidget {
@@ -190,7 +194,7 @@ class MyHistory extends State<History>{
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Reminder'),
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: blue,
       ),
       body: new Container(
           child: new ListView(
