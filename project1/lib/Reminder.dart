@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'Edit.dart';
+import 'listFoto.dart';
 import 'main.dart';
 import 'DB.dart';
 
@@ -57,6 +58,15 @@ class Reminder extends StatelessWidget{
                    isi
                 ),
               ),
+            ),
+            RaisedButton(
+                child: Text("Foto Foto"),
+                onPressed: () async{
+                  await OpenDbFoto(id);
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) =>listFoto(id)
+                  ));
+                }
             ),
             Container(
               child: Row(

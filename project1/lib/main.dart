@@ -14,6 +14,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'DB.dart';
 import 'ReminderHistory.dart';
+import 'listFoto.dart';
 
 void main() => runApp(MyApp());
 List<Map> list;
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
           '/home': (context) => Home(),
           '/openreminder': (context) => Reminder(0,"","",""),
           '/history': (context) => History(),
+          '/listFoto': (context) => listFoto(0),
         }
     );
   }

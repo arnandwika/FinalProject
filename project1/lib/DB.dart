@@ -31,6 +31,8 @@ class DB{
   Future BuatDB(Database db, int version) async{
     await db.execute(
       "CREATE TABLE reminder(id INTEGER PRIMARY KEY AUTOINCREMENT, judul TEXT, isi TEXT, tanggal TEXT)",);
+    await db.execute(
+      "CREATE TABLE foto(id INTEGER PRIMARY KEY AUTOINCREMENT, nama TEXT, idReminder INTEGER)",);
   }
 
   Future<List<Map>> listReminder(formattedDate) async {
@@ -38,6 +40,10 @@ class DB{
     return await dbTemp.rawQuery('SELECT * FROM reminder WHERE tanggal > "'+formattedDate+'" ORDER BY tanggal ASC');
   }
 
+  Future<List<Map>> mapListFoto(int id) async{
+    Database dbTemp = await database;
+    return await dbTemp.rawQuery('SELECT * FROM foto WHERE idReminder ="'+id.toString()+'"');
+  }
   Future<List<Map>> listHistory(formattedDate) async {
     Database dbTemp = await database;
     print(formattedDate);
@@ -60,6 +66,12 @@ class DB{
     await dbTemp.delete('reminder',where: "id=?", whereArgs: [id]);
   }
 
+  Future<int> insertFoto(String nmFoto, int id) async{
+    Database dbTemp = await database;
+    ObjectFoto objectFoto = new ObjectFoto(namaFoto: nmFoto, idReminder: id);
+    return await dbTemp.insert('foto',objectFoto.toMap());
+  }
+
   Future <int> editReminder(String judulB, String tanggalB, String isiB, int id) async{
     Database dbTemp = await database;
     return await dbTemp.rawUpdate(
@@ -67,7 +79,17 @@ class DB{
         [judulB, tanggalB, isiB, id]);
   }
 }
-
+class ObjectFoto{
+  String namaFoto;
+  int idReminder;
+  ObjectFoto({this.namaFoto,this.idReminder});
+  Map<String, dynamic> toMap(){
+    return{
+      'nama': namaFoto,
+      'idReminder': idReminder,
+    };
+  }
+}
 class ObjectReminder{
   String judul;
   String tanggal;
