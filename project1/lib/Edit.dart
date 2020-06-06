@@ -9,17 +9,10 @@ import 'main.dart';
 import 'DB.dart';
 
 void main() => runApp(Edit(0,"","",""));
-//void OpenDbEdit() async{
-//  DB helper = DB.instance;
-//  var databasesPath = await getDatabasesPath();
-//  String path = databasesPath +'project1.db';
-//  await deleteDatabase(path);
-//  database.db = await openDatabase(path);
-////  print(database.isOpen);
-//  print(list);
-//}
+
 Future<bool> databaseExists(String path) =>
     databaseFactory.databaseExists(path);
+
 class EditRunner extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -94,17 +87,12 @@ class EditState extends State<Edit>{
       body: Container(
         child: Column(
           children: <Widget>[
-            Text(
-                'Judul'
-            ),
             TextFormField(
               decoration: InputDecoration(
+                  labelText: 'Nama Acara',
                   hintText: '${this.judul}'
               ),
               controller: TextJudulController,
-            ),
-            Text(
-                'Tanggal'
             ),
             DateTimeField(
               format: format,

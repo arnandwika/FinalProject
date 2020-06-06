@@ -24,11 +24,8 @@ class ReminderHistory extends StatelessWidget{
   void hapusFirestore(int id) async{
     await Firestore.instance.collection('reminder').document(id.toString()).delete();
   }
-//  void printList() async{
-//    list = await database.rawQuery("SELECT * FROM reminder WHERE id="+id.toString()+"");
-//    print(list);
-//  }
-    @override
+
+  @override
   Widget build(BuildContext context) {
       OpenDb();
     return Scaffold(
