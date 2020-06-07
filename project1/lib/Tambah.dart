@@ -154,6 +154,32 @@ class Tambah extends State<StateTambah>{
                   ),
                 ),
                 SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      "Tambah Foto : ",
+                      style: TextStyle(
+                        fontSize: 20
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    FlatButton(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(color: blue)
+                      ),
+                      color: white,
+                      child: Text("Pilih", style: TextStyle(color: black),),
+                      onPressed: (){
+                        _showMyDialog();
+                      },
+                    )
+                  ],
+                ),
+                SizedBox(
                   height: 50,
                 ),
                 RaisedButton(
@@ -175,4 +201,53 @@ class Tambah extends State<StateTambah>{
       ),
     );
   }
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Tambah Foto Menggunakan...'),
+          actions: <Widget>[
+            FlatButton(
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.camera_alt
+                  ),
+                  FlatButton(
+                    child: Text('Kamera'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                      Icons.folder_open
+                  ),
+                  FlatButton(
+                    child: Text('Galeri'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
+

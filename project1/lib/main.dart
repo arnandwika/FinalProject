@@ -53,8 +53,11 @@ class MyApp extends StatelessWidget {
 }
 
 class MyNavigator {
-  static void goToFirstPage(BuildContext context) {
-    Navigator.pushReplacementNamed(context, "/firstPage");
+//  static void goToFirstPage(BuildContext context) {
+//    Navigator.pushReplacementNamed(context, "/firstPage");
+//  }
+  static void goHome(BuildContext context) {
+    Navigator.pushReplacementNamed(context, "/home");
   }
 }
 
@@ -193,14 +196,13 @@ class MyHistory extends State<History>{
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Reminder'),
+        title: new Text('Riwayat Acara'),
         backgroundColor: blue,
       ),
       body: new Container(
-          child: new ListView(
-            children: cards,
-          )
-
+        child: new ListView(
+          children: cards,
+        )
       ),
     );
   }

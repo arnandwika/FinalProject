@@ -12,7 +12,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 3), () => MyNavigator.goToFirstPage(context));
+    Timer(Duration(seconds: 3), () => MyNavigator.goHome(context));
   }
 
   @override
@@ -57,12 +57,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    CircularProgressIndicator(),
+                    CircularProgressIndicator(
+                      valueColor: new AlwaysStoppedAnimation<Color>(white),
+                    ),
                     Padding(
                       padding: EdgeInsets.only(top: 20.0),
                     ),
                     Text(
-                      "LOADING",
+                      "LOADING...",
                       softWrap: true,
                       textAlign: TextAlign.center,
                       style: TextStyle(
