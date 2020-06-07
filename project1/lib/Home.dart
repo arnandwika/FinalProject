@@ -23,8 +23,21 @@ class MyCard extends State<Home>{
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('Reminder'),
+          title: new Text('Quinget Reminder'),
           backgroundColor: blue,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.history),
+              iconSize: 30,
+              onPressed: () async =>{
+                await historyFirestore(),
+                Navigator.pushNamed(context, '/history')
+              },
+            ),
+            SizedBox(
+              width: 15,
+            )
+          ],
         ),
         body: new Container(
             child: new ListView(
@@ -34,7 +47,7 @@ class MyCard extends State<Home>{
         ),
         floatingActionButton: new FloatingActionButton(
             elevation: 0.0,
-            child: new Icon(Icons.add_circle),
+            child: new Icon(Icons.add),
             backgroundColor: blue,
             onPressed: (){
               Navigator.push(

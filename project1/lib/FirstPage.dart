@@ -36,8 +36,6 @@ class FirstPage extends State<FirstPageState>{
     if (payLoad != null) {
       print(payLoad);
     }
-
-    // we can set navigator to navigate another screen
   }
 
   Future onDidReceiveLocalNotification(
@@ -51,7 +49,8 @@ class FirstPage extends State<FirstPageState>{
             onPressed: () {
               print("");
             },
-            child: Text("Okay")),
+            child: Text("Okay")
+        ),
       ],
     );
   }
@@ -88,14 +87,13 @@ class FirstPage extends State<FirstPageState>{
         priority: Priority.High,
         importance: Importance.Max,
         ticker: 'test');
-
     IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
-
     NotificationDetails notificationDetails =
     NotificationDetails(androidNotificationDetails, iosNotificationDetails);
     await flutterLocalNotificationsPlugin.schedule(
         i, s1, s2,scheduledTime, notificationDetails);
   }
+
   Future<void> cekSisa(String tgl,int i) async{
     DateTime waktu = DateTime.now();
     DateTime pembanding = convertDateFromString(tgl);
@@ -169,8 +167,6 @@ class FirstPage extends State<FirstPageState>{
                     child: new RaisedButton(
                       color: blue,
                       onPressed: () async =>{
-//                    await OpenDb(),
-//
                         Navigator.pushNamed(context, '/home'),
                       },
                       child: new Text(
