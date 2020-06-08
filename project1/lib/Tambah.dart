@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:project1/main.dart';
 
@@ -19,6 +22,22 @@ class Tambah extends State<StateTambah>{
   final _JudulEditingController = TextEditingController();
   final _IsiEditingController = TextEditingController();
   final format = DateFormat("d MMMM y HH:mm");
+
+  File image;
+  OpenCamera() async{
+    image = await ImagePicker.pickImage(source: ImageSource.camera);
+    setState(() {
+
+    });
+  }
+  OpenGallery() async{
+    image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -168,11 +187,8 @@ class Tambah extends State<StateTambah>{
                       width: 8,
                     ),
                     FlatButton(
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(color: blue)
-                      ),
-                      color: white,
-                      child: Text("Pilih", style: TextStyle(color: black),),
+                      color: gray,
+                      child: Text("Pilih...", style: TextStyle(color: black),),
                       onPressed: (){
                         _showMyDialog();
                       },
@@ -182,17 +198,21 @@ class Tambah extends State<StateTambah>{
                 SizedBox(
                   height: 50,
                 ),
-                RaisedButton(
-                  color: blue,
-                  child: Text("Tambah Acara", style: TextStyle(color: white),),
-                  onPressed: () async {
-                    await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text);
-                    await OpenDb();
-                    await getFirestore();
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/home');
-                  },
+                SizedBox(
+                  width: 200,
+                  height: 50,
+                  child: RaisedButton(
+                    color: blue,
+                    child: Text("Tambah Acara", style: TextStyle(color: white, fontSize: 20),),
+                    onPressed: () async {
+                      await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text);
+                      await OpenDb();
+                      await getFirestore();
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/home');
+                    },
+                  ),
                 )
               ],
             ),
@@ -201,53 +221,65 @@ class Tambah extends State<StateTambah>{
       ),
     );
   }
+
   Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Tambah Foto Menggunakan...'),
-          actions: <Widget>[
-            FlatButton(
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.camera_alt
-                  ),
-                  FlatButton(
-                    child: Text('Kamera'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              FlatButton(
+                child: Column(
+                  children: <Widget>[
+                    Icon(
+                      Icons.camera_alt,
+                      size: 50,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text('Kamera',
+                      style: (
+                        TextStyle(
+                            fontSize: 18
+                        )
+                      ),
+                    )
+                  ],
+                ),
+                onPressed: () {
+                  OpenCamera();
+                },
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                      Icons.folder_open
-                  ),
-                  FlatButton(
-                    child: Text('Galeri'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
+              FlatButton(
+                child: Column(
+                  children: <Widget>[
+                    Icon(
+                      Icons.folder_open,
+                      size: 50,
+                    ),
+                    Text('Galeri',
+                      style: (
+                        TextStyle(
+                          fontSize: 18
+                        )
+                      ),
+                    ),
+                  ],
+                ),
+                onPressed: () {
+                  OpenGallery();
+                },
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
+            ],
+          )
         );
       },
     );
   }
 }
+
+
 
