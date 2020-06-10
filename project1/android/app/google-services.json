@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:941515092195:android:e04351da9144f574c495d6",
+        "mobilesdk_app_id": "1:941515092195:android:efc8782adf11b628c495d6",
         "android_client_info": {
-          "package_name": "id.ac.ukdw"
+          "package_name": "id.ac.ukdw.project1"
         }
       },
       "oauth_client": [
         {
-          "client_id": "941515092195-2bev6dd3ii6alono1nb50hoaje0r44d3.apps.googleusercontent.com",
+          "client_id": "941515092195-03dr7q1argemr4man51e3imaha5q2vgk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "id.ac.ukdw",
+            "package_name": "id.ac.ukdw.project1",
             "certificate_hash": "793e57009c68f73947d4186d6b6bd0a158bf1296"
           }
         },
