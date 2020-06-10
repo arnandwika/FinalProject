@@ -12,7 +12,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 3), () => MyNavigator.goToFirstPage(context));
+    Timer(Duration(seconds: 3), () => MyNavigator.goHome(context));
   }
 
   @override
@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: Colors.redAccent),
+            decoration: BoxDecoration(color: blue),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       CircleAvatar(
-                        backgroundColor: Colors.white,
+                        backgroundColor: white,
                         radius: 50.0,
                         child: Image.asset('img/quinget.png'),
                       ),
@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       Text(
                         "QUINGET REMINDER",
                         style: TextStyle(
-                            color: Colors.white,
+                            color: white,
                             fontWeight: FontWeight.bold,
                             fontSize: 24.0),
                       )
@@ -57,12 +57,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    CircularProgressIndicator(),
+                    CircularProgressIndicator(
+                      valueColor: new AlwaysStoppedAnimation<Color>(white),
+                    ),
                     Padding(
                       padding: EdgeInsets.only(top: 20.0),
                     ),
                     Text(
-                      "LOADING",
+                      "LOADING...",
                       softWrap: true,
                       textAlign: TextAlign.center,
                       style: TextStyle(

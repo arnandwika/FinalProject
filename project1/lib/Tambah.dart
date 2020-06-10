@@ -1,84 +1,27 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:project1/main.dart';
 
-import 'Reminder.dart';
-import 'main.dart';
-import 'DB.dart';
-import 'package:project1/Tambah.dart';
-
-void main() => runApp(Edit(0,"","",""));
-
-Future<bool> databaseExists(String path) =>
-    databaseFactory.databaseExists(path);
-
-class EditRunner extends StatelessWidget{
+class StateTambah extends StatefulWidget{
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Edit(0,"","",""),
-    );
-  }
+  State createState() => Tambah();
 }
 
-class Edit extends StatefulWidget{
-  int id;
-  String judul;
-  String tanggal;
-  String deskripsi;
-  Edit(this.id,this.judul, this.tanggal, this.deskripsi);
+class Tambah extends State<StateTambah>{
+
   @override
-  State createState(){
-    return EditState(this.id,this.judul,this.tanggal, this.deskripsi);
+  void initState() {
+    super.initState();
   }
-}
-
-class HasilEdit{
-  String judul;
-  String tanggal;
-  String isi;
-  HasilEdit({this.judul,this.tanggal,this.isi});
-  Map<String, dynamic> toMap(){
-    return{
-      'judul': judul,
-      'isi': isi,
-      'tanggal': tanggal,
-    };
-  }
-}
-class EditState extends State<Edit>{
-  int id=0;
-  String judul;
-  String tanggal;
-  String deskripsi;
-  EditState(this.id,this.judul, this.tanggal, this.deskripsi);
-  final TextJudulController = TextEditingController();
-  final TextTanggalController = TextEditingController();
-  final TextIsiController = TextEditingController();
-  void updateDb(int id, String judulBaru, String tanggalBaru, String isiBaru) async{
-    DB helper = DB.instance;
-    int count = await helper.editReminder(judulBaru, tanggalBaru, isiBaru, id);
-    print('updated: $count');
-    DateTime waktu = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(waktu);
-    list = await helper.listReminder(formattedDate);
-}
-  void editFirestore(int id, String judulBaru, String tanggalBaru, String isiBaru) async{
-    Map<String, dynamic> temp = new Map<String, dynamic>();
-    temp['id'] = id;
-    temp['judul'] = judulBaru;
-    temp['tanggal'] = tanggalBaru;
-    temp['isi'] = isiBaru;
-    await Firestore.instance.collection("reminder").document(id.toString()).updateData(temp);
-  }
+  String tanggalJam=" ";
+  ObjectReminder objectInsert;
+  final _JudulEditingController = TextEditingController();
+  final _IsiEditingController = TextEditingController();
   final format = DateFormat("d MMMM y HH:mm");
-  String tanggalJam="";
 
   File image;
   OpenCamera() async{
@@ -94,32 +37,33 @@ class EditState extends State<Edit>{
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
-    HasilEdit h1;
-    TextJudulController.text = this.judul;
-    TextIsiController.text = this.deskripsi;
-    return Scaffold(
-      appBar: AppBar(
+    return new Scaffold(
+      appBar: new AppBar(
+        title: Text('Tambah Acara'),
         backgroundColor: blue,
-        title: Text("Edit Acara"),
       ),
-      body: Padding(padding: EdgeInsets.all(15.0),
+      body: new Padding(padding: EdgeInsets.all(15.0),
         child: ListView(
           children: <Widget>[
             Text(
-                "Ubah Detail Acara: ",
+              "Detail Acara Baru: ",
                 style: TextStyle(fontSize: 23,fontWeight: FontWeight.bold)
             ),
             SizedBox(
               height: 15,
             ),
-            Column(
+            new Column(
               children: <Widget>[
-                TextFormField(
+                new TextFormField(
+                  controller: _JudulEditingController,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
                   decoration: InputDecoration(
-                    labelText: 'Nama Acara',
-                    hintText: '${this.judul}',
+                    labelText: "Nama Acara",
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: gray,
@@ -133,21 +77,19 @@ class EditState extends State<Edit>{
                       ),
                     ),
                   ),
-                  controller: TextJudulController,
                 ),
                 SizedBox(
                   height: 8,
                 ),
-                DateTimeField(
+                new DateTimeField(
                   format: format,
                   style: (
-                      TextStyle(
-                        fontSize: 20,
-                      )
+                    TextStyle(
+                      fontSize: 20,
+                    )
                   ),
                   decoration: InputDecoration(
                     labelText: 'Tanggal & Jam Acara',
-                    hintText: '${this.tanggal}',
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: gray,
@@ -183,14 +125,14 @@ class EditState extends State<Edit>{
                 SizedBox(
                   height: 8,
                 ),
-                TextFormField(
+                new TextFormField(
+                  controller: _IsiEditingController,
                   maxLines: 3,
                   style: TextStyle(
                     fontSize: 20,
                   ),
                   decoration: InputDecoration(
                     labelText: 'Deskripsi Acara',
-                    hintText: "${this.deskripsi}",
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: gray,
@@ -204,12 +146,11 @@ class EditState extends State<Edit>{
                       ),
                     ),
                   ),
-                  controller: TextIsiController,
                 ),
                 SizedBox(
                   height: 8,
                 ),
-                TextFormField(
+                new TextFormField(
 //                  controller: _LocEditingController,
                   maxLines: null,
                   style: TextStyle(
@@ -239,7 +180,7 @@ class EditState extends State<Edit>{
                     Text(
                       "Tambah Foto : ",
                       style: TextStyle(
-                          fontSize: 20
+                        fontSize: 20
                       ),
                     ),
                     SizedBox(
@@ -262,94 +203,83 @@ class EditState extends State<Edit>{
                   height: 50,
                   child: RaisedButton(
                     color: blue,
-                    onPressed: () async =>{
-                      await updateDb(id, TextJudulController.text, tanggalJam, TextIsiController.text),
-                      await editFirestore(id, TextJudulController.text, tanggalJam, TextIsiController.text),
-                      await OpenDb(),
-                      print(list),
-                      Navigator.pop(context),
-                      Navigator.pop(context),
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Reminder(id,TextJudulController.text,TextIsiController.text,tanggalJam)))
+                    child: Text("Tambah Acara", style: TextStyle(color: white, fontSize: 20),),
+                    onPressed: () async {
+                      await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text);
+                      await OpenDb();
+                      await getFirestore();
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/home');
                     },
-                    child: Text("Save",style: TextStyle(color: white, fontSize: 20),),
-                  ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                SizedBox(
-                  width: 200,
-                  height: 50,
-                  child: RaisedButton(
-                    color: blue,
-                    onPressed: () =>{
-                      Navigator.pop(context),
-                    },
-                    child: Text("Cancel",style: TextStyle(color: white, fontSize: 20),),
                   ),
                 )
               ],
-            )
+            ),
           ],
-        ),
+        )
       ),
     );
   }
+
   Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                FlatButton(
-                  child: Column(
-                    children: <Widget>[
-                      Icon(
-                        Icons.camera_alt,
-                        size: 50,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              FlatButton(
+                child: Column(
+                  children: <Widget>[
+                    Icon(
+                      Icons.camera_alt,
+                      size: 50,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text('Kamera',
+                      style: (
+                        TextStyle(
+                            fontSize: 18
+                        )
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text('Kamera',
-                        style: (
-                            TextStyle(
-                                fontSize: 18
-                            )
-                        ),
-                      )
-                    ],
-                  ),
-                  onPressed: () {
-                    OpenCamera();
-                  },
+                    )
+                  ],
                 ),
-                FlatButton(
-                  child: Column(
-                    children: <Widget>[
-                      Icon(
-                        Icons.folder_open,
-                        size: 50,
+                onPressed: () {
+                  OpenCamera();
+                },
+              ),
+              FlatButton(
+                child: Column(
+                  children: <Widget>[
+                    Icon(
+                      Icons.folder_open,
+                      size: 50,
+                    ),
+                    Text('Galeri',
+                      style: (
+                        TextStyle(
+                          fontSize: 18
+                        )
                       ),
-                      Text('Galeri',
-                        style: (
-                            TextStyle(
-                                fontSize: 18
-                            )
-                        ),
-                      ),
-                    ],
-                  ),
-                  onPressed: () {
-                    OpenGallery();
-                  },
+                    ),
+                  ],
                 ),
-              ],
-            )
+                onPressed: () {
+                  OpenGallery();
+                },
+              ),
+            ],
+          )
         );
       },
     );
   }
 }
+
+
+

@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_format/date_format.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'Edit.dart';
@@ -24,69 +26,134 @@ class ReminderHistory extends StatelessWidget{
   void hapusFirestore(int id) async{
     await Firestore.instance.collection('reminder').document(id.toString()).delete();
   }
-//  void printList() async{
-//    list = await database.rawQuery("SELECT * FROM reminder WHERE id="+id.toString()+"");
-//    print(list);
-//  }
-    @override
+
+  @override
   Widget build(BuildContext context) {
       OpenDb();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepOrange,
+        title: Text("Riwayat"),
+        backgroundColor: blue,
       ),
-      body: Container(
-        child: Column(
+      body: Padding(
+        padding: EdgeInsets.all(8),
+        child: ListView(
           children: <Widget>[
             Text(
-              judul,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30
-              ),
+                "Detail Acara: ",
+                style: TextStyle(fontSize: 23,fontWeight: FontWeight.bold),
             ),
-            Text(
-              tanggal,
-              style: TextStyle(
-                fontSize: 14,
-              ),
+            SizedBox(
+              height: 15,
             ),
-            SingleChildScrollView(
-              child: Container(
-                height: 200,
-                child: Text(
-                   isi
-                ),
-              ),
-            ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: RaisedButton(
-                      onPressed: () async => {
-                        await hapusData(id),
-                        await hapusFirestore(id),
-                        Navigator.pop(context),
-                        Navigator.pop(context),
-                        await OpenDb(),
-                        Navigator.pushNamed(context, '/history'),
-
-                      },
-                      color: Colors.deepOrangeAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(18.0),
-                      ),
+            Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 150,
                       child: Text(
-                        "Hapus",
+                        "Nama Acara",
                         style: TextStyle(
-                            fontSize: 20
-                        ),),
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
+                    Text(
+                      " : "+judul,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 150,
+                      child: Text(
+                        "Tanggal Acara ",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      " : "+formatDate(DateTime.parse(tanggal),[d," ",MM," ",yyyy]).toString(),
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 150,
+                      child: Text(
+                        "Jam Acara ",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      " : "+formatDate(DateTime.parse(tanggal),[HH,":",nn]).toString(),
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 150,
+                      height: 150,
+                      child: Text(
+                        "Deskripsi ",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 150,
+                      child: Text(
+                        " : "+isi,
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  width: 200,
+                  height: 50,
+                  child: RaisedButton(
+                    color: Colors.red,
+                    child: Text("Hapus", style: TextStyle(color: white, fontSize: 20),),
+                    onPressed: () async => {
+                      await hapusData(id),
+                      await hapusFirestore(id),
+                      Navigator.pop(context),
+                      Navigator.pop(context),
+                      await OpenDb(),
+                      Navigator.pushNamed(context, '/history'),
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             )
           ],
         ),

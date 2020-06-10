@@ -76,7 +76,6 @@ class listFotoState extends State<listFoto>{
   @override
   void initState() {
     super.initState();
-//    doDownload();
   }
 
   @override

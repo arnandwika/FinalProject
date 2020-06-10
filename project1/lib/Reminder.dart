@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 
 import 'Edit.dart';
@@ -8,8 +9,6 @@ import 'DB.dart';
 
 
 void main() => runApp(Reminder(0,"","",""));
-
-
 
 class Reminder extends StatelessWidget{
   int id;
@@ -24,95 +23,159 @@ class Reminder extends StatelessWidget{
   void hapusFirestore(int id) async{
     await Firestore.instance.collection('reminder').document(id.toString()).delete();
   }
-//  void printList() async{
-//    list = await database.rawQuery("SELECT * FROM reminder WHERE id="+id.toString()+"");
-//    print(list);
-//  }
-    @override
+
+  @override
   Widget build(BuildContext context) {
       OpenDb();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepOrange,
+        title: Text("Detail "),
+        backgroundColor: blue,
       ),
-      body: Container(
-        child: Column(
+      body: Padding(
+        padding: EdgeInsets.all(8),
+        child: ListView(
           children: <Widget>[
             Text(
-              judul,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30
-              ),
+                "Detail Acara: ",
+                style: TextStyle(fontSize: 23,fontWeight: FontWeight.bold)
             ),
-            Text(
-              tanggal,
-              style: TextStyle(
-                fontSize: 14,
-              ),
+            SizedBox(
+              height: 15,
             ),
-            SingleChildScrollView(
-              child: Container(
-                height: 200,
-                child: Text(
-                   isi
-                ),
-              ),
-            ),
-            RaisedButton(
-                child: Text("Foto Foto"),
-                onPressed: () async{
-                  await OpenDbFoto(id);
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context) =>listFoto(id)
-                  ));
-                }
-            ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: RaisedButton(
-                      onPressed: () async => {
-                        await hapusData(id),
-                        await hapusFirestore(id),
-                        Navigator.pop(context),
-                        Navigator.pop(context),
-                        await OpenDb(),
-                        Navigator.pushNamed(context, '/home'),
-
-                      },
-                      color: Colors.deepOrangeAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(18.0),
-                      ),
+            Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 150,
                       child: Text(
-                        "Hapus",
+                        "Nama Acara",
                         style: TextStyle(
-                            fontSize: 20
-                        ),),
-                    ),
-                  ),
-                  Expanded(
-                    child: RaisedButton(
-                      onPressed: () => {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) =>Edit(id,judul, tanggal, isi),
-                        )),
-                      },
-                      color: Colors.deepOrangeAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(18.0),
+                          fontSize: 20,
+                        ),
                       ),
-                      child: Text("Edit",
-                        style: TextStyle(
-                            fontSize: 20
-                        ),),
                     ),
+                    Text(
+                      " : "+judul,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 150,
+                      child: Text(
+                        "Tanggal Acara ",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      " : "+formatDate(DateTime.parse(tanggal),[d," ",MM," ",yyyy]).toString(),
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 150,
+                      child: Text(
+                        "Jam Acara ",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      " : "+formatDate(DateTime.parse(tanggal),[HH,":",nn]).toString(),
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 150,
+                      height: 150,
+                      child: Text(
+                        "Deskripsi ",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 150,
+                      child: Text(
+                        " : "+isi,
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+//            RaisedButton(
+//                child: Text("Foto Foto"),
+//                onPressed: () async{
+//                  await OpenDbFoto(id);
+//                  Navigator.push(context, MaterialPageRoute(
+//                      builder: (context) =>listFoto(id)
+//                  ));
+//                }
+//            ),
+                SizedBox(
+                  width: 200,
+                  height: 50,
+                  child: RaisedButton(
+                    color: blue,
+                    child: Text("Edit", style: TextStyle(color: white, fontSize: 20),),
+                    onPressed: () => {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) =>Edit(id,judul, tanggal, isi),
+                      )),
+                    },
                   ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                SizedBox(
+                  width: 200,
+                  height: 50,
+                  child: RaisedButton(
+                    color: Colors.red,
+                    child: Text("Hapus", style: TextStyle(color: white, fontSize: 20),),
+                    onPressed: () async => {
+                      await hapusData(id),
+                      await hapusFirestore(id),
+                      Navigator.pop(context),
+                      Navigator.pop(context),
+                      await OpenDb(),
+                      Navigator.pushNamed(context, '/home'),
+                    },
+                  ),
+                ),
+              ],
             )
           ],
         ),
