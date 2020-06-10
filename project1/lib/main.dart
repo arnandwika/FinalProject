@@ -164,16 +164,33 @@ class CustomCard extends State<StateCard> {
 //            setState(){};
           });
         },
-        child: new Column(
-          children: <Widget>[
-            Text(listReminder[i]['judul']+" "+listReminder[i]['id'].toString()),
-            new Padding(
-                padding: new EdgeInsets.all(7.0),
+//        child: new Column(
+//          children: <Widget>[
+//            Text(listReminder[i]['judul']+" "+listReminder[i]['id'].toString()),
+//            new Padding(
+//                padding: new EdgeInsets.all(7.0),
+//            ),
+//            Text(listReminder[i]['tanggal']),
+//            Text(listReminder[i]['isi']),
+//          ],
+//        ),
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(listReminder[i]['judul'],
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                Text("[ "+listReminder[i]['isi']+" ]",
+                  style: TextStyle(fontSize: 20),
+                ),
+//              Text(listReminder[i]['tanggal'],
+//                style: TextStyle(fontSize: 20),
+//              ),
+              ],
             ),
-            Text(listReminder[i]['tanggal']),
-            Text(listReminder[i]['isi']),
-          ],
-        ),
+          )
       ),
     );
   }
@@ -249,16 +266,33 @@ class CardHistory extends StatelessWidget {
           ),
           ),
         },
-        child: new Column(
-          children: <Widget>[
-            Text(listHistory[i]['judul']+" "+listHistory[i]['id'].toString()),
-            new Padding(
-              padding: new EdgeInsets.all(7.0),
-            ),
-            Text(listHistory[i]['tanggal']),
-            Text(listHistory[i]['isi']),
-          ],
-        ),
+//        child: new Column(
+//          children: <Widget>[
+//            Text(listHistory[i]['judul']+" "+listHistory[i]['id'].toString()),
+//            new Padding(
+//              padding: new EdgeInsets.all(7.0),
+//            ),
+//            Text(listHistory[i]['tanggal']),
+//            Text(listHistory[i]['isi']),
+//          ],
+//        ),
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(listHistory[i]['judul'],
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Text("[ "+listHistory[i]['isi']+" ]",
+                style: TextStyle(fontSize: 20),
+              ),
+//              Text(listHistory[i]['tanggal'],
+//                style: TextStyle(fontSize: 20),
+//              ),
+            ],
+          ),
+        )
       ),
     );
   }
