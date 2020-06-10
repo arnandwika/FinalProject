@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "191387969374",
-    "firebase_url": "https://project1hybrid.firebaseio.com",
-    "project_id": "project1hybrid",
-    "storage_bucket": "project1hybrid.appspot.com"
+    "project_number": "941515092195",
+    "firebase_url": "https://proghybfinal.firebaseio.com",
+    "project_id": "proghybfinal",
+    "storage_bucket": "proghybfinal.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:191387969374:android:893c13a09b4069179f51cf",
+        "mobilesdk_app_id": "1:941515092195:android:e04351da9144f574c495d6",
         "android_client_info": {
-          "package_name": "id.ac.ukdw.project1"
+          "package_name": "id.ac.ukdw"
         }
       },
       "oauth_client": [
         {
-          "client_id": "191387969374-vin56ssfmmcmvsdre52ejpeiisd68r2r.apps.googleusercontent.com",
+          "client_id": "941515092195-2bev6dd3ii6alono1nb50hoaje0r44d3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "id.ac.ukdw.project1",
-            "certificate_hash": "b0a1cac0901715ba35c29c872951b8dffa6b7ffb"
+            "package_name": "id.ac.ukdw",
+            "certificate_hash": "793e57009c68f73947d4186d6b6bd0a158bf1296"
           }
         },
         {
-          "client_id": "191387969374-1o7hl3d78dea6hbov75ltqbi6uahm9mo.apps.googleusercontent.com",
+          "client_id": "941515092195-0i5o46kj2ft3ie465840s76lpp0tiloo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBWpXj9YlCgolr75LSiRzhqrsupTgH8zck"
+          "current_key": "AIzaSyAw4mcZ3xsAjANWbX18P0x6BGzMJo9-m7c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "191387969374-1o7hl3d78dea6hbov75ltqbi6uahm9mo.apps.googleusercontent.com",
+              "client_id": "941515092195-0i5o46kj2ft3ie465840s76lpp0tiloo.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
