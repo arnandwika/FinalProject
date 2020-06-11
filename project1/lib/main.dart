@@ -15,6 +15,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'DB.dart';
+import 'LoginPage.dart';
 import 'ReminderHistory.dart';
 import 'listFoto.dart';
 
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: <String, WidgetBuilder>{
           '/': (context) => SplashScreen(),
+          '/login': (context) => LoginPage(),
           '/firstPage': (context) => FirstPageState(),
           '/home': (context) => Home(),
           '/openreminder': (context) => Reminder(0,"","",""),
@@ -56,6 +58,9 @@ class MyNavigator {
 //  static void goToFirstPage(BuildContext context) {
 //    Navigator.pushReplacementNamed(context, "/firstPage");
 //  }
+  static void goLogin(BuildContext context) {
+    Navigator.pushReplacementNamed(context, "/login");
+  }
   static void goHome(BuildContext context) {
     Navigator.pushReplacementNamed(context, "/home");
   }
