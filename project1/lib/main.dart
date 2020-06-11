@@ -38,8 +38,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
         routes: <String, WidgetBuilder>{
           '/': (context) => SplashScreen(),
           '/firstPage': (context) => FirstPageState(),
@@ -151,46 +151,35 @@ class CustomCard extends State<StateCard> {
   @override
   Widget build(BuildContext context) {
     return new Card(
-      color: selectColor(listReminder[i]['tanggal']),
-      child: InkWell(
+      child: ListTile(
         onTap: (){
           Navigator.of(context).push(MaterialPageRoute<String>(
-            builder: (BuildContext context) {
-              return Reminder(
-                  listReminder[i]['id'],listReminder[i]['judul'],listReminder[i]['isi'],listReminder[i]['tanggal']
-              );
-            }
+              builder: (BuildContext context) {
+                return Reminder(
+                    listReminder[i]['id'],listReminder[i]['judul'],listReminder[i]['isi'],listReminder[i]['tanggal']
+                );
+              }
           )).then((String str){
 //            setState(){};
           });
         },
-//        child: new Column(
-//          children: <Widget>[
-//            Text(listReminder[i]['judul']+" "+listReminder[i]['id'].toString()),
-//            new Padding(
-//                padding: new EdgeInsets.all(7.0),
-//            ),
-//            Text(listReminder[i]['tanggal']),
-//            Text(listReminder[i]['isi']),
-//          ],
-//        ),
-          child: Padding(
-            padding: EdgeInsets.all(8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(listReminder[i]['judul'],
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                Text("[ "+listReminder[i]['isi']+" ]",
-                  style: TextStyle(fontSize: 20),
-                ),
-//              Text(listReminder[i]['tanggal'],
-//                style: TextStyle(fontSize: 20),
-//              ),
-              ],
-            ),
-          )
+        title: Padding(
+          padding: EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(listReminder[i]['judul'],
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Text(listReminder[i]['tanggal'],
+                style: TextStyle(fontSize: 17, color: blue),
+              ),
+            ],
+          ),
+        ),
+        trailing: CircleAvatar(
+          backgroundColor: selectColor(listReminder[i]['tanggal']),
+        ),
       ),
     );
   }
@@ -217,9 +206,9 @@ class MyHistory extends State<History>{
         backgroundColor: blue,
       ),
       body: new Container(
-        child: new ListView(
-          children: cards,
-        )
+          child: new ListView(
+            children: cards,
+          )
       ),
     );
   }
@@ -257,42 +246,29 @@ class CardHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Card(
-      child: InkWell(
-        onTap: ()=>{
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) =>ReminderHistory(
-                listHistory[i]['id'],listHistory[i]['judul'],listHistory[i]['isi'],listHistory[i]['tanggal']
+      child: ListTile(
+          onTap: ()=>{
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) =>ReminderHistory(
+                  listHistory[i]['id'],listHistory[i]['judul'],listHistory[i]['isi'],listHistory[i]['tanggal']
+              ),
             ),
-          ),
-          ),
-        },
-//        child: new Column(
-//          children: <Widget>[
-//            Text(listHistory[i]['judul']+" "+listHistory[i]['id'].toString()),
-//            new Padding(
-//              padding: new EdgeInsets.all(7.0),
-//            ),
-//            Text(listHistory[i]['tanggal']),
-//            Text(listHistory[i]['isi']),
-//          ],
-//        ),
-        child: Padding(
-          padding: EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(listHistory[i]['judul'],
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              Text("[ "+listHistory[i]['isi']+" ]",
-                style: TextStyle(fontSize: 20),
-              ),
-//              Text(listHistory[i]['tanggal'],
-//                style: TextStyle(fontSize: 20),
-//              ),
-            ],
-          ),
-        )
+            ),
+          },
+          title: Padding(
+            padding: EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(listHistory[i]['judul'],
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                Text(listHistory[i]['tanggal'],
+                  style: TextStyle(fontSize: 17, color: blue),
+                ),
+              ],
+            ),
+          )
       ),
     );
   }
