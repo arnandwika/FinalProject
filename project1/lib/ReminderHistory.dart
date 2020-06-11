@@ -49,6 +49,7 @@ class ReminderHistory extends StatelessWidget{
             Column(
               children: <Widget>[
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
                       width: 150,
@@ -59,12 +60,15 @@ class ReminderHistory extends StatelessWidget{
                         ),
                       ),
                     ),
-                    Text(
-                      " : "+judul,
-                      style: TextStyle(
-                        fontSize: 20,
+                    Text(": "),
+                    Expanded(
+                      child: Text(
+                        judul,
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
                       ),
-                    ),
+                    )
                   ],
                 ),
                 SizedBox(
@@ -81,8 +85,9 @@ class ReminderHistory extends StatelessWidget{
                         ),
                       ),
                     ),
+                    Text(": "),
                     Text(
-                      " : "+formatDate(DateTime.parse(tanggal),[d," ",MM," ",yyyy]).toString(),
+                      formatDate(DateTime.parse(tanggal),[d," ",MM," ",yyyy]).toString(),
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -103,8 +108,9 @@ class ReminderHistory extends StatelessWidget{
                         ),
                       ),
                     ),
+                    Text(": "),
                     Text(
-                      " : "+formatDate(DateTime.parse(tanggal),[HH,":",nn]).toString(),
+                      formatDate(DateTime.parse(tanggal),[HH,":",nn]).toString(),
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -115,10 +121,10 @@ class ReminderHistory extends StatelessWidget{
                   height: 8,
                 ),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
                       width: 150,
-                      height: 150,
                       child: Text(
                         "Deskripsi ",
                         style: TextStyle(
@@ -126,16 +132,45 @@ class ReminderHistory extends StatelessWidget{
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 150,
+                    Text(": "),
+                    Expanded(
                       child: Text(
-                        " : "+isi,
+                        isi,
                         style: TextStyle(
                           fontSize: 20,
                         ),
                       ),
                     )
                   ],
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 150,
+                      child: Text(
+                        "Lokasi ",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    Text(": "),
+                    Expanded(
+                      child: Text(
+                        "-",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 50,
                 ),
                 SizedBox(
                   width: 200,
