@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -32,6 +33,9 @@ class Tambah extends State<StateTambah>{
   }
   OpenGallery() async{
     image = await ImagePicker.pickImage(source: ImageSource.gallery);
+//    String fileName = image.path.split('/').last;
+//    StorageReference sr = await FirebaseStorage.instance.ref().child('images/reminder-${id}/${fileName}');
+//    await sr.putFile(image);
     setState(() {
 
     });
