@@ -50,11 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    CircleAvatar(
-                      backgroundColor: white,
-                      radius: 50.0,
-                      child: Image.asset('img/quinget.png'),
-                    ),
+                    Image.asset('img/Qu+.png', width: 200, height: 200,),
                     Padding(
                       padding: EdgeInsets.only(top: 10.0),
                     ),
@@ -76,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              "Masuk Menggunakan\n Google",
+                              "Login via Google",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: blue,
