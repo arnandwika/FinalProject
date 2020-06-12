@@ -6,6 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:project1/main.dart';
+import 'Maps.dart';
+
+String nama;
+String tgl;
+String deskripsi;
 
 class StateTambah extends StatefulWidget{
   @override
@@ -13,10 +18,17 @@ class StateTambah extends StatefulWidget{
 }
 
 class Tambah extends State<StateTambah>{
+  void setAlamat(alamat){
+    setState(() {
+      _LocEditingController.text = alamat;
+    });
+  }
 
   @override
   void initState() {
+    setAlamat(alamatMaps);
     super.initState();
+    alamatMaps="";
   }
   String tanggalJam=" ";
   ObjectReminder objectInsert;
@@ -42,7 +54,6 @@ class Tambah extends State<StateTambah>{
 
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -159,6 +170,9 @@ class Tambah extends State<StateTambah>{
                 new TextFormField(
                   controller: _LocEditingController,
                   maxLines: null,
+                  onTap: (){
+                    MyNavigator.openMap(context);
+                  },
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -214,6 +228,7 @@ class Tambah extends State<StateTambah>{
                       await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text, _LocEditingController.text);
                       await OpenDb();
                       await getFirestore();
+                      alamatMaps="";
                       Navigator.pop(context);
                       Navigator.pop(context);
                       Navigator.pushNamed(context, '/home');

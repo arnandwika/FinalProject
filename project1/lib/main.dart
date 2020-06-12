@@ -11,6 +11,7 @@ import 'package:project1/FirstPage.dart';
 import 'package:project1/Home.dart';
 import 'package:project1/Reminder.dart';
 import 'package:project1/Splash2.dart';
+import 'Maps.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
           '/openreminder': (context) => Reminder(0,"","","",""),
           '/history': (context) => History(),
           '/listFoto': (context) => listFoto(0),
+          '/map': (context) => Maps()
         }
     );
   }
@@ -63,6 +65,9 @@ class MyNavigator {
   }
   static void goHome(BuildContext context) {
     Navigator.pushReplacementNamed(context, "/home");
+  }
+  static void openMap(BuildContext context){
+    Navigator.pushReplacementNamed(context, "/map");
   }
 }
 
