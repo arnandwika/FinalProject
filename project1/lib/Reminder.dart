@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'Edit.dart';
@@ -46,6 +47,7 @@ class Reminder extends StatelessWidget{
             Column(
               children: <Widget>[
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
                       width: 150,
@@ -56,12 +58,15 @@ class Reminder extends StatelessWidget{
                         ),
                       ),
                     ),
-                    Text(
-                      " : "+judul,
-                      style: TextStyle(
-                        fontSize: 20,
+                    Text(": "),
+                    Expanded(
+                      child: Text(
+                        judul,
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
                       ),
-                    ),
+                    )
                   ],
                 ),
                 SizedBox(
@@ -78,8 +83,9 @@ class Reminder extends StatelessWidget{
                         ),
                       ),
                     ),
+                    Text(": "),
                     Text(
-                      " : "+formatDate(DateTime.parse(tanggal),[d," ",MM," ",yyyy]).toString(),
+                      formatDate(DateTime.parse(tanggal),[d," ",MM," ",yyyy]).toString(),
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -100,8 +106,9 @@ class Reminder extends StatelessWidget{
                         ),
                       ),
                     ),
+                    Text(": "),
                     Text(
-                      " : "+formatDate(DateTime.parse(tanggal),[HH,":",nn]).toString(),
+                      formatDate(DateTime.parse(tanggal),[HH,":",nn]).toString(),
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -112,10 +119,10 @@ class Reminder extends StatelessWidget{
                   height: 8,
                 ),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
                       width: 150,
-                      height: 150,
                       child: Text(
                         "Deskripsi ",
                         style: TextStyle(
@@ -123,10 +130,10 @@ class Reminder extends StatelessWidget{
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 150,
+                    Text(": "),
+                    Expanded(
                       child: Text(
-                        " : "+isi,
+                        isi,
                         style: TextStyle(
                           fontSize: 20,
                         ),
@@ -143,6 +150,35 @@ class Reminder extends StatelessWidget{
 //                  ));
 //                }
 //            ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 150,
+                      child: Text(
+                        "Lokasi ",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    Text(": "),
+                    Expanded(
+                      child: Text(
+                        "-",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 50,
+                ),
                 SizedBox(
                   width: 200,
                   height: 50,
