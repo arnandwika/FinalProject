@@ -4,25 +4,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'Edit.dart';
+import 'LoginPage.dart';
 import 'listFoto.dart';
 import 'main.dart';
 import 'DB.dart';
 
 
-void main() => runApp(Reminder(0,"","",""));
+void main() => runApp(Reminder(0,"","","",""));
 
 class Reminder extends StatelessWidget{
   int id;
   String judul;
   String isi;
   String tanggal;
-  Reminder(this.id, this.judul, this.isi, this.tanggal);
+  String lokasi;
+  Reminder(this.id, this.judul, this.isi, this.tanggal, this.lokasi);
   void hapusData(int id) async{
     DB helper = DB.instance;
     helper.deleteReminder(id);
   }
   void hapusFirestore(int id) async{
-    await Firestore.instance.collection('reminder').document(id.toString()).delete();
+    await Firestore.instance.collection(loggedInUser.uid).document(id.toString()).delete();
   }
 
   @override
@@ -168,7 +170,7 @@ class Reminder extends StatelessWidget{
                     Text(": "),
                     Expanded(
                       child: Text(
-                        "-",
+                        lokasi,
                         style: TextStyle(
                           fontSize: 20,
                         ),
@@ -187,7 +189,7 @@ class Reminder extends StatelessWidget{
                     child: Text("Edit", style: TextStyle(color: white, fontSize: 20),),
                     onPressed: () => {
                       Navigator.push(context, MaterialPageRoute(
-                        builder: (context) =>Edit(id,judul, tanggal, isi),
+                        builder: (context) =>Edit(id,judul, tanggal, isi,lokasi),
                       )),
                     },
                   ),

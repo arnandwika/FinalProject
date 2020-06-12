@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -21,6 +22,7 @@ class Tambah extends State<StateTambah>{
   ObjectReminder objectInsert;
   final _JudulEditingController = TextEditingController();
   final _IsiEditingController = TextEditingController();
+  final _LocEditingController = TextEditingController();
   final format = DateFormat("d MMMM y HH:mm");
 
   File image;
@@ -31,7 +33,11 @@ class Tambah extends State<StateTambah>{
     });
   }
   OpenGallery() async{
+
     image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    String fileName = image.path.split('/').last;
+    StorageReference sr = await FirebaseStorage.instance.ref().child('images/reminder-${id}/${fileName}');
+//    await sr.putFile(image);
     setState(() {
 
     });
@@ -151,7 +157,7 @@ class Tambah extends State<StateTambah>{
                   height: 8,
                 ),
                 new TextFormField(
-//                  controller: _LocEditingController,
+                  controller: _LocEditingController,
                   maxLines: null,
                   style: TextStyle(
                     fontSize: 20,
@@ -205,7 +211,7 @@ class Tambah extends State<StateTambah>{
                     color: blue,
                     child: Text("Tambah Acara", style: TextStyle(color: white, fontSize: 20),),
                     onPressed: () async {
-                      await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text);
+                      await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text, _LocEditingController.text);
                       await OpenDb();
                       await getFirestore();
                       Navigator.pop(context);

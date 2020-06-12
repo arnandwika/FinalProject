@@ -30,7 +30,7 @@ class DB{
 
   Future BuatDB(Database db, int version) async{
     await db.execute(
-      "CREATE TABLE reminder(id INTEGER PRIMARY KEY AUTOINCREMENT, judul TEXT, isi TEXT, tanggal TEXT)",);
+      "CREATE TABLE reminder(id INTEGER PRIMARY KEY AUTOINCREMENT, judul TEXT, isi TEXT, tanggal TEXT, lokasi TEXT)",);
     await db.execute(
       "CREATE TABLE foto(id INTEGER PRIMARY KEY AUTOINCREMENT, nama TEXT, idReminder INTEGER)",);
   }
@@ -55,9 +55,9 @@ class DB{
     return await dbTemp.rawQuery('SELECT MAX(id) FROM reminder');
   }
 
-  Future<int> insertReminder(String judul, String tanggal, String isi) async {
+  Future<int> insertReminder(String judul, String tanggal, String isi, String lokasi) async {
     Database dbTemp = await database;
-    ObjectReminder objectInsert = new ObjectReminder(judul: judul, tanggal: tanggal, isi: isi);
+    ObjectReminder objectInsert = new ObjectReminder(judul: judul, tanggal: tanggal, isi: isi, lokasi: lokasi);
     return await dbTemp.insert('reminder',objectInsert.toMap());
   }
 
@@ -72,10 +72,10 @@ class DB{
     return await dbTemp.insert('foto',objectFoto.toMap());
   }
 
-  Future <int> editReminder(String judulB, String tanggalB, String isiB, int id) async{
+  Future <int> editReminder(String judulB, String tanggalB, String isiB, String lokasiB, int id) async{
     Database dbTemp = await database;
     return await dbTemp.rawUpdate(
-        'UPDATE reminder SET judul = ?, tanggal = ?, isi = ? WHERE id = ?',
+        'UPDATE reminder SET judul = ?, tanggal = ?, isi = ?, lokasi = ? WHERE id = ?',
         [judulB, tanggalB, isiB, id]);
   }
 }
@@ -94,12 +94,14 @@ class ObjectReminder{
   String judul;
   String tanggal;
   String isi;
-  ObjectReminder({this.judul,this.tanggal,this.isi});
+  String lokasi;
+  ObjectReminder({this.judul,this.tanggal,this.isi, this.lokasi});
   Map<String, dynamic> toMap(){
     return{
       'judul': judul,
       'isi': isi,
       'tanggal': tanggal,
+      'lokasi': lokasi,
     };
   }
 }
