@@ -33,11 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      CircleAvatar(
-                        backgroundColor: white,
-                        radius: 50.0,
-                        child: Image.asset('img/quinget.png'),
-                      ),
+                      Image.asset('img/Qu+.png', width: 200, height: 200,),
                       Padding(
                         padding: EdgeInsets.only(top: 10.0),
                       ),
