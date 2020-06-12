@@ -83,7 +83,7 @@ class ObjectReminder{
 Future getFirestore() async{
   DateTime waktu = DateTime.now();
   String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(waktu);
-  await Firestore.instance.collection("reminder").where('tanggal', isGreaterThanOrEqualTo: formattedDate).orderBy('tanggal', descending: false).snapshots().listen((temp){
+  await Firestore.instance.collection(loggedInUser.uid).where('tanggal', isGreaterThanOrEqualTo: formattedDate).orderBy('tanggal', descending: false).snapshots().listen((temp){
     listReminder.clear();
     if (temp.documents.length != 0){
       temp.documents.forEach((d){
@@ -101,7 +101,7 @@ Future getFirestore() async{
 }
 
 Future addFirestore(String tjudul, String ttanggal, String tisi) async{
-  await Firestore.instance.collection("reminder").document(id.toString()).setData({
+  await Firestore.instance.collection(loggedInUser.uid).document(id.toString()).setData({
     'id': id,
     'judul': tjudul,
     'tanggal': ttanggal,

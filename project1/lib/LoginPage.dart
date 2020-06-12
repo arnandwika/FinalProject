@@ -10,7 +10,7 @@ class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
-
+FirebaseUser loggedInUser;
 class _LoginPageState extends State<LoginPage> {
   doLogin(){
     googleSignIn().then((FirebaseUser user){
@@ -30,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
     );
     
     FirebaseUser user = (await FirebaseAuth.instance.signInWithCredential(credential)).user;
+    loggedInUser = user;
     return user;
   }
   

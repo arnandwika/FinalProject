@@ -32,9 +32,10 @@ class Tambah extends State<StateTambah>{
     });
   }
   OpenGallery() async{
+
     image = await ImagePicker.pickImage(source: ImageSource.gallery);
-//    String fileName = image.path.split('/').last;
-//    StorageReference sr = await FirebaseStorage.instance.ref().child('images/reminder-${id}/${fileName}');
+    String fileName = image.path.split('/').last;
+    StorageReference sr = await FirebaseStorage.instance.ref().child('images/reminder-${id}/${fileName}');
 //    await sr.putFile(image);
     setState(() {
 
