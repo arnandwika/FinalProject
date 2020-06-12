@@ -12,7 +12,7 @@ import 'main.dart';
 import 'DB.dart';
 import 'package:project1/Tambah.dart';
 
-void main() => runApp(Edit(0,"","",""));
+void main() => runApp(Edit(0,"","","",""));
 
 Future<bool> databaseExists(String path) =>
     databaseFactory.databaseExists(path);
@@ -22,7 +22,7 @@ class EditRunner extends StatelessWidget{
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Edit(0,"","",""),
+      home: Edit(0,"","","",""),
     );
   }
 }
@@ -32,10 +32,11 @@ class Edit extends StatefulWidget{
   String judul;
   String tanggal;
   String deskripsi;
-  Edit(this.id,this.judul, this.tanggal, this.deskripsi);
+  String lokasi;
+  Edit(this.id,this.judul, this.tanggal, this.deskripsi, this.lokasi);
   @override
   State createState(){
-    return EditState(this.id,this.judul,this.tanggal, this.deskripsi);
+    return EditState(this.id,this.judul,this.tanggal, this.deskripsi, this.lokasi);
   }
 }
 
@@ -57,13 +58,15 @@ class EditState extends State<Edit>{
   String judul;
   String tanggal;
   String deskripsi;
-  EditState(this.id,this.judul, this.tanggal, this.deskripsi);
+  String lokasi;
+  EditState(this.id,this.judul, this.tanggal, this.deskripsi, this.lokasi);
   final TextJudulController = TextEditingController();
   final TextTanggalController = TextEditingController();
   final TextIsiController = TextEditingController();
-  void updateDb(int id, String judulBaru, String tanggalBaru, String isiBaru) async{
+  final _LocEditingController = TextEditingController();
+  void updateDb(int id, String judulBaru, String tanggalBaru, String isiBaru, String lokasiBaru) async{
     DB helper = DB.instance;
-    int count = await helper.editReminder(judulBaru, tanggalBaru, isiBaru, id);
+    int count = await helper.editReminder(judulBaru, tanggalBaru, isiBaru,  lokasiBaru, id);
     print('updated: $count');
     DateTime waktu = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(waktu);
@@ -99,6 +102,7 @@ class EditState extends State<Edit>{
     HasilEdit h1;
     TextJudulController.text = this.judul;
     TextIsiController.text = this.deskripsi;
+    _LocEditingController.text = this.lokasi;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blue,
@@ -210,13 +214,14 @@ class EditState extends State<Edit>{
                   height: 8,
                 ),
                 TextFormField(
-//                  controller: _LocEditingController,
+                  controller: _LocEditingController,
                   maxLines: null,
                   style: TextStyle(
                     fontSize: 20,
                   ),
                   decoration: InputDecoration(
                     labelText: 'Lokasi Acara',
+                    hintText: "${this.lokasi}",
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: gray,
@@ -263,13 +268,13 @@ class EditState extends State<Edit>{
                   child: RaisedButton(
                     color: blue,
                     onPressed: () async =>{
-                      await updateDb(id, TextJudulController.text, tanggalJam, TextIsiController.text),
+                      await updateDb(id, TextJudulController.text, tanggalJam, TextIsiController.text, _LocEditingController.text),
                       await editFirestore(id, TextJudulController.text, tanggalJam, TextIsiController.text),
                       await OpenDb(),
                       print(list),
                       Navigator.pop(context),
                       Navigator.pop(context),
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Reminder(id,TextJudulController.text,TextIsiController.text,tanggalJam)))
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Reminder(id,TextJudulController.text,TextIsiController.text,tanggalJam,_LocEditingController.text)))
                     },
                     child: Text("Save",style: TextStyle(color: white, fontSize: 20),),
                   ),

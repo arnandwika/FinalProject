@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
           '/login': (context) => LoginPage(),
           '/firstPage': (context) => FirstPageState(),
           '/home': (context) => Home(),
-          '/openreminder': (context) => Reminder(0,"","",""),
+          '/openreminder': (context) => Reminder(0,"","","",""),
           '/history': (context) => History(),
           '/listFoto': (context) => listFoto(0),
         }
@@ -70,12 +70,14 @@ class ObjectReminder{
   String judul;
   String tanggal;
   String isi;
-  ObjectReminder({this.judul,this.tanggal,this.isi});
+  String lokasi;
+  ObjectReminder({this.judul,this.tanggal,this.isi,this.lokasi});
   Map<String, dynamic> toMap(){
     return{
       'judul': judul,
       'isi': isi,
       'tanggal': tanggal,
+      'lokasi': lokasi,
     };
   }
 }
@@ -92,6 +94,7 @@ Future getFirestore() async{
         temp['judul'] = d['judul'];
         temp['tanggal'] = d['tanggal'];
         temp['isi'] = d['isi'];
+        temp['lokasi'] = d['lokasi'];
         print("ini datanya "+temp['judul']);
         listReminder.add(temp);
       });
@@ -100,19 +103,20 @@ Future getFirestore() async{
   print(listReminder.toString());
 }
 
-Future addFirestore(String tjudul, String ttanggal, String tisi) async{
+Future addFirestore(String tjudul, String ttanggal, String tisi, String tlokasi) async{
   await Firestore.instance.collection(loggedInUser.uid).document(id.toString()).setData({
     'id': id,
     'judul': tjudul,
     'tanggal': ttanggal,
-    'isi': tisi
+    'isi': tisi,
+    'lokasi': tlokasi
   });
   id++;
 }
-Future InsertDb(String judul, String tanggal, String isi) async{
+Future InsertDb(String judul, String tanggal, String isi, String lokasi) async{
   DB helper = DB.instance;
-  await helper.insertReminder(judul, tanggal, isi);
-  await addFirestore(judul, tanggal, isi);
+  await helper.insertReminder(judul, tanggal, isi, lokasi);
+  await addFirestore(judul, tanggal, isi, lokasi);
 }
 Future OpenDb() async{
   DB helper = DB.instance;
@@ -161,7 +165,7 @@ class CustomCard extends State<StateCard> {
           Navigator.of(context).push(MaterialPageRoute<String>(
               builder: (BuildContext context) {
                 return Reminder(
-                    listReminder[i]['id'],listReminder[i]['judul'],listReminder[i]['isi'],listReminder[i]['tanggal']
+                    listReminder[i]['id'],listReminder[i]['judul'],listReminder[i]['isi'],listReminder[i]['tanggal'],listReminder[i]['lokasi']
                 );
               }
           )).then((String str){
@@ -229,7 +233,7 @@ Future searchHistory() async{
 Future historyFirestore() async{
   DateTime waktu = DateTime.now();
   String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(waktu);
-  await Firestore.instance.collection("reminder").where('tanggal', isLessThan: formattedDate).orderBy('tanggal', descending: false).snapshots().listen((temp){
+  await Firestore.instance.collection(loggedInUser.uid).where('tanggal', isLessThan: formattedDate).orderBy('tanggal', descending: false).snapshots().listen((temp){
     listHistory.clear();
     if (temp.documents.length != 0){
       temp.documents.forEach((d){
