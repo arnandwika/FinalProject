@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:project1/LoginPage.dart';
 import 'package:project1/main.dart';
 
 class StateTambah extends StatefulWidget{
@@ -24,8 +25,9 @@ class Tambah extends State<StateTambah>{
   final _IsiEditingController = TextEditingController();
   final _LocEditingController = TextEditingController();
   final format = DateFormat("d MMMM y HH:mm");
-
   File image;
+  String path='';
+
   OpenCamera() async{
     image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
@@ -42,7 +44,17 @@ class Tambah extends State<StateTambah>{
       Navigator.pop(context);
     });
   }
-
+  void upload() async{
+    StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+id.toString());
+    await sr.putFile(image);
+  }
+  void download() async{
+    StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+id.toString());
+    String url = await sr.getDownloadURL();
+    setState(() {
+      path = url;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -219,6 +231,7 @@ class Tambah extends State<StateTambah>{
                       await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text, _LocEditingController.text);
                       await OpenDb();
                       await getFirestore();
+                      upload();
                       Navigator.pop(context);
                       Navigator.pop(context);
                       Navigator.pushNamed(context, '/home');
