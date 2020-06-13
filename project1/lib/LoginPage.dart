@@ -15,6 +15,7 @@ class _LoginPageState extends State<LoginPage> {
   doLogin(){
     googleSignIn().then((FirebaseUser user){
       setState(() {
+        UID = "${user.uid}";
         MyNavigator.goHome(context);
       });
     }).catchError((e)=>print(e.toString()));
