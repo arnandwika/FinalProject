@@ -29,7 +29,7 @@ class Tambah extends State<StateTambah>{
   OpenCamera() async{
     image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
-
+      Navigator.pop(context);
     });
   }
   OpenGallery() async{
@@ -39,7 +39,7 @@ class Tambah extends State<StateTambah>{
     StorageReference sr = await FirebaseStorage.instance.ref().child('images/reminder-${id}/${fileName}');
 //    await sr.putFile(image);
     setState(() {
-
+      Navigator.pop(context);
     });
   }
 
@@ -198,9 +198,14 @@ class Tambah extends State<StateTambah>{
                       onPressed: (){
                         _showMyDialog();
                       },
-                    )
+                    ),
                   ],
                 ),
+                image!=null?
+                Image.file(image,
+                  width: 200,
+                  height: 200,):
+                Text(""),
                 SizedBox(
                   height: 50,
                 ),
