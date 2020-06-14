@@ -5,7 +5,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:project1/LoginPage.dart';
 import 'package:project1/main.dart';
+import 'Maps.dart';
+
+String nama;
+String tgl;
+String deskripsi;
+TextEditingController locEditingController = TextEditingController();
 
 class StateTambah extends StatefulWidget{
   @override
@@ -17,19 +24,21 @@ class Tambah extends State<StateTambah>{
   @override
   void initState() {
     super.initState();
+    alamatMaps="";
   }
   String tanggalJam=" ";
   ObjectReminder objectInsert;
   final _JudulEditingController = TextEditingController();
   final _IsiEditingController = TextEditingController();
-  final _LocEditingController = TextEditingController();
-  final format = DateFormat("d MMMM y HH:mm");
 
+  final format = DateFormat("d MMMM y HH:mm");
   File image;
+  String path='';
+
   OpenCamera() async{
     image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
-
+      Navigator.pop(context);
     });
   }
   OpenGallery() async{
@@ -39,10 +48,20 @@ class Tambah extends State<StateTambah>{
     StorageReference sr = await FirebaseStorage.instance.ref().child('images/reminder-${id}/${fileName}');
 //    await sr.putFile(image);
     setState(() {
-
+      Navigator.pop(context);
     });
   }
-
+  void upload() async{
+    StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+id.toString());
+    await sr.putFile(image);
+  }
+  void download() async{
+    StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+id.toString());
+    String url = await sr.getDownloadURL();
+    setState(() {
+      path = url;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -157,8 +176,11 @@ class Tambah extends State<StateTambah>{
                   height: 8,
                 ),
                 new TextFormField(
-                  controller: _LocEditingController,
+                  controller: locEditingController,
                   maxLines: null,
+                  onTap: (){
+                    MyNavigator.openMap(context);
+                  },
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -198,9 +220,14 @@ class Tambah extends State<StateTambah>{
                       onPressed: (){
                         _showMyDialog();
                       },
-                    )
+                    ),
                   ],
                 ),
+                image!=null?
+                Image.file(image,
+                  width: 200,
+                  height: 200,):
+                Text(""),
                 SizedBox(
                   height: 50,
                 ),
@@ -211,9 +238,11 @@ class Tambah extends State<StateTambah>{
                     color: blue,
                     child: Text("Tambah Acara", style: TextStyle(color: white, fontSize: 20),),
                     onPressed: () async {
-                      await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text, _LocEditingController.text);
+                      await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text, locEditingController.text);
                       await OpenDb();
                       await getFirestore();
+                      alamatMaps="";
+                      upload();
                       Navigator.pop(context);
                       Navigator.pop(context);
                       Navigator.pushNamed(context, '/home');
