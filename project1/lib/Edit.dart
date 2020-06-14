@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -82,19 +83,38 @@ class EditState extends State<Edit>{
   }
   final format = DateFormat("d MMMM y HH:mm");
   String tanggalJam="";
-
   File image;
+  String path = '';
   OpenCamera() async{
     image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
-
+      Navigator.pop(context);
     });
   }
   OpenGallery() async{
     image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
-
+      Navigator.pop(context);
     });
+  }
+  void upload() async{
+    StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+id.toString());
+    await sr.putFile(image);
+  }
+  void download() async{
+    print(UID+"/"+(id).toString());
+    StorageReference sr = await FirebaseStorage.instance.ref().child("ccafinMxPdNNSYhNJ2s0YrH8aRK2/1");
+    String url = await sr.getDownloadURL();
+    setState(() {
+      path = url;
+      print(url);
+    });
+  }
+
+  @override
+  void initState(){
+    download();
+    super.initState();
   }
 
   @override
@@ -121,6 +141,9 @@ class EditState extends State<Edit>{
             Column(
               children: <Widget>[
                 TextFormField(
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
                   decoration: InputDecoration(
                     labelText: 'Nama Acara',
                     hintText: '${this.judul}',
@@ -149,6 +172,7 @@ class EditState extends State<Edit>{
                         fontSize: 20,
                       )
                   ),
+                  initialValue: DateTime.parse('${this.tanggal}'),
                   decoration: InputDecoration(
                     labelText: 'Tanggal & Jam Acara',
                     hintText: '${this.tanggal}',
@@ -242,7 +266,7 @@ class EditState extends State<Edit>{
                 Row(
                   children: <Widget>[
                     Text(
-                      "Tambah Foto : ",
+                      "Ubah Foto : ",
                       style: TextStyle(
                           fontSize: 20
                       ),
@@ -259,6 +283,14 @@ class EditState extends State<Edit>{
                     )
                   ],
                 ),
+                image!=null?
+                Image.file(image,
+                  width: 200,
+                  height: 200,):
+                Image.network(path,
+                  width: 200,
+                  height: 200,
+                ),
                 SizedBox(
                   height: 50,
                 ),
@@ -271,6 +303,7 @@ class EditState extends State<Edit>{
                       await updateDb(id, TextJudulController.text, tanggalJam, TextIsiController.text, _LocEditingController.text),
                       await editFirestore(id, TextJudulController.text, tanggalJam, TextIsiController.text),
                       await OpenDb(),
+                      upload(),
                       print(list),
                       Navigator.pop(context),
                       Navigator.pop(context),
@@ -286,7 +319,7 @@ class EditState extends State<Edit>{
                   width: 200,
                   height: 50,
                   child: RaisedButton(
-                    color: blue,
+                    color: merah,
                     onPressed: () =>{
                       Navigator.pop(context),
                     },
@@ -320,9 +353,9 @@ class EditState extends State<Edit>{
                       ),
                       Text('Kamera',
                         style: (
-                            TextStyle(
-                                fontSize: 18
-                            )
+                          TextStyle(
+                              fontSize: 18
+                          )
                         ),
                       )
                     ],
@@ -340,9 +373,9 @@ class EditState extends State<Edit>{
                       ),
                       Text('Galeri',
                         style: (
-                            TextStyle(
-                                fontSize: 18
-                            )
+                          TextStyle(
+                              fontSize: 18
+                          )
                         ),
                       ),
                     ],

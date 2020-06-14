@@ -35,6 +35,7 @@ Color black = Colors.black;
 Color white = Colors.white;
 Color gray = Colors.black12;
 int id=0;
+String UID = "";
 
 class MyApp extends StatelessWidget {
 
