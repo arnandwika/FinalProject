@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:project1/Tambah.dart';
 
 String alamatMaps;
-
 class Maps extends StatefulWidget{
   @override
   _MapsState createState() => _MapsState();
@@ -24,12 +23,8 @@ class _MapsState extends State<Maps>{
   }
   void setAlamat(){
     alamatMaps=alamat;
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context)=> StateTambah()
-        )
-    );
+    locEditingController.text = alamatMaps;
+    Navigator.pop(context, "/tambah");
   }
 
   @override
@@ -68,15 +63,19 @@ class _MapsState extends State<Maps>{
                   hintText: 'Enter address...',
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.all(10),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.search),
-                    iconSize: 30.0,
-                    onPressed: navigate,
-                  )
                 ),
                 onChanged: updateAlamat,
               ),
             ),
+          ),
+          new Positioned(
+            top: 30,
+            right: 15,
+            child: new IconButton(
+                icon: Icon(Icons.search),
+                iconSize: 30.0,
+                onPressed: navigate,
+            )
           )
         ],
       ),
@@ -93,7 +92,7 @@ class _MapsState extends State<Maps>{
       Geolocator().placemarkFromAddress(alamat).then((result){
         gmController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
             target: LatLng(result[0].position.latitude, result[0].position.longitude),
-            zoom: 8
+            zoom: 17
         )));
       });
     });

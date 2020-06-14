@@ -18,6 +18,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'DB.dart';
 import 'LoginPage.dart';
 import 'ReminderHistory.dart';
+import 'Tambah.dart';
 import 'listFoto.dart';
 
 void main() => runApp(MyApp());
@@ -50,7 +51,8 @@ class MyApp extends StatelessWidget {
           '/openreminder': (context) => Reminder(0,"","","",""),
           '/history': (context) => History(),
           '/listFoto': (context) => listFoto(0),
-          '/map': (context) => Maps()
+          '/map': (context) => Maps(),
+          '/tambah': (context) => StateTambah()
         }
     );
   }
@@ -67,7 +69,10 @@ class MyNavigator {
     Navigator.pushReplacementNamed(context, "/home");
   }
   static void openMap(BuildContext context){
-    Navigator.pushReplacementNamed(context, "/map");
+    Navigator.pushNamed(context, "/map");
+  }
+  static void backTambah(BuildContext context){
+    Navigator.pop(context, "/tambah");
   }
 }
 

@@ -11,6 +11,7 @@ import 'Maps.dart';
 String nama;
 String tgl;
 String deskripsi;
+TextEditingController locEditingController = TextEditingController();
 
 class StateTambah extends StatefulWidget{
   @override
@@ -18,15 +19,9 @@ class StateTambah extends StatefulWidget{
 }
 
 class Tambah extends State<StateTambah>{
-  void setAlamat(alamat){
-    setState(() {
-      _LocEditingController.text = alamat;
-    });
-  }
 
   @override
   void initState() {
-    setAlamat(alamatMaps);
     super.initState();
     alamatMaps="";
   }
@@ -34,7 +29,7 @@ class Tambah extends State<StateTambah>{
   ObjectReminder objectInsert;
   final _JudulEditingController = TextEditingController();
   final _IsiEditingController = TextEditingController();
-  final _LocEditingController = TextEditingController();
+
   final format = DateFormat("d MMMM y HH:mm");
 
   File image;
@@ -168,7 +163,7 @@ class Tambah extends State<StateTambah>{
                   height: 8,
                 ),
                 new TextFormField(
-                  controller: _LocEditingController,
+                  controller: locEditingController,
                   maxLines: null,
                   onTap: (){
                     MyNavigator.openMap(context);
@@ -225,7 +220,7 @@ class Tambah extends State<StateTambah>{
                     color: blue,
                     child: Text("Tambah Acara", style: TextStyle(color: white, fontSize: 20),),
                     onPressed: () async {
-                      await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text, _LocEditingController.text);
+                      await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text, locEditingController.text);
                       await OpenDb();
                       await getFirestore();
                       alamatMaps="";
