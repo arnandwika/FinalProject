@@ -1,5 +1,10 @@
+
+
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,14 +16,27 @@ import 'DB.dart';
 
 
 void main() => runApp(Reminder(0,"","","",""));
-
-class Reminder extends StatelessWidget{
+class Reminder extends StatefulWidget {
   int id;
   String judul;
   String isi;
   String tanggal;
   String lokasi;
   Reminder(this.id, this.judul, this.isi, this.tanggal, this.lokasi);
+  @override
+  _ReminderState createState() => _ReminderState(this.id, this.judul, this.isi, this.tanggal, this.lokasi);
+}
+
+
+class _ReminderState extends State<Reminder> {
+  int id;
+  String judul;
+  String isi;
+  String tanggal;
+  String lokasi;
+  File image;
+  String path = '';
+  _ReminderState(this.id, this.judul, this.isi, this.tanggal, this.lokasi);
   void hapusData(int id) async{
     DB helper = DB.instance;
     helper.deleteReminder(id);
@@ -26,10 +44,23 @@ class Reminder extends StatelessWidget{
   void hapusFirestore(int id) async{
     await Firestore.instance.collection(loggedInUser.uid).document(id.toString()).delete();
   }
-
+  void download() async{
+    print(UID+"/"+(id).toString());
+    StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+(id).toString());
+    String url = await sr.getDownloadURL();
+    setState(() {
+      path = url;
+      print(url);
+    });
+  }
+  @override
+  void initState(){
+    download();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-      OpenDb();
+    OpenDb();
     return Scaffold(
       appBar: AppBar(
         title: Text("Detail "),
@@ -48,6 +79,15 @@ class Reminder extends StatelessWidget{
             ),
             Column(
               children: <Widget>[
+                path!=''?
+                Image.network(path,
+                  width: 200,
+                  height: 200,
+                ):
+                Text("Tidak ada Gambar"),
+                SizedBox(
+                  height: 15,
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
