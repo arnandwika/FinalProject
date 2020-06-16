@@ -9,9 +9,6 @@ import 'package:project1/LoginPage.dart';
 import 'package:project1/main.dart';
 import 'Maps.dart';
 
-String nama;
-String tgl;
-String deskripsi;
 TextEditingController locEditingController = TextEditingController();
 
 class StateTambah extends StatefulWidget{
@@ -179,6 +176,7 @@ class Tambah extends State<StateTambah>{
                   controller: locEditingController,
                   maxLines: null,
                   onTap: (){
+                    mapsLoc.text = alamatMaps;
                     MyNavigator.openMap(context);
                   },
                   style: TextStyle(

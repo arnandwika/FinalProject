@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:project1/LoginPage.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'Maps.dart';
 import 'Reminder.dart';
 import 'main.dart';
 import 'DB.dart';
@@ -18,6 +19,8 @@ void main() => runApp(Edit(0,"","","",""));
 
 Future<bool> databaseExists(String path) =>
     databaseFactory.databaseExists(path);
+
+TextEditingController locEditingController2 = TextEditingController();
 
 class EditRunner extends StatelessWidget{
   @override
@@ -67,7 +70,6 @@ class EditState extends State<Edit>{
   final TextJudulController = TextEditingController();
   final TextTanggalController = TextEditingController();
   final TextIsiController = TextEditingController();
-  final _LocEditingController = TextEditingController();
   void updateDb(int id, String judulBaru, String tanggalBaru, String isiBaru, String lokasiBaru) async{
     DB helper = DB.instance;
     int count = await helper.editReminder(judulBaru, tanggalBaru, isiBaru,  lokasiBaru, id);
@@ -126,7 +128,7 @@ class EditState extends State<Edit>{
     HasilEdit h1;
     TextJudulController.text = this.judul;
     TextIsiController.text = this.deskripsi;
-    _LocEditingController.text = this.lokasi;
+    locEditingController2.text = this.lokasi;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blue,
@@ -242,7 +244,11 @@ class EditState extends State<Edit>{
                   height: 8,
                 ),
                 TextFormField(
-                  controller: _LocEditingController,
+                  onTap: (){
+                    mapsLoc.text = alamatMaps;
+                    MyNavigator.openMap(context);
+                  },
+                  controller: locEditingController2,
                   maxLines: null,
                   style: TextStyle(
                     fontSize: 20,
@@ -311,7 +317,7 @@ class EditState extends State<Edit>{
                       print(list),
                       Navigator.pop(context),
                       Navigator.pop(context),
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Reminder(id,TextJudulController.text,TextIsiController.text,tanggalJam,_LocEditingController.text)))
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Reminder(id,TextJudulController.text,TextIsiController.text,tanggalJam,locEditingController2.text)))
                     },
                     child: Text("Save",style: TextStyle(color: white, fontSize: 20),),
                   ),

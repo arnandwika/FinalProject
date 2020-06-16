@@ -1,11 +1,15 @@
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:project1/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:project1/Tambah.dart';
+import 'package:location/location.dart';
 
 String alamatMaps;
+TextEditingController mapsLoc = new TextEditingController();
+
 class Maps extends StatefulWidget{
   @override
   _MapsState createState() => _MapsState();
@@ -13,6 +17,8 @@ class Maps extends StatefulWidget{
 
 class _MapsState extends State<Maps>{
   GoogleMapController gmController;
+
+  Location currentLoc = new Location();
 
   String alamat;
 
@@ -29,6 +35,14 @@ class _MapsState extends State<Maps>{
 
   @override
   void initState() {
+//    if(alamat==""){
+//      currentLoc.onLocationChanged().listen((now) {
+//        gmController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+//            target: LatLng(now.latitude,now.longitude),
+//            zoom: 16
+//        )));
+//      });
+//    }
     super.initState();
   }
   @override
@@ -42,6 +56,7 @@ class _MapsState extends State<Maps>{
           new GoogleMap(
             onMapCreated: onMapCreated,
             mapType: MapType.normal,
+            myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
                 target: LatLng(-7.803, 110.357),
                 zoom: 14
@@ -59,6 +74,7 @@ class _MapsState extends State<Maps>{
                 color: Colors.white
               ),
               child: new TextField(
+                controller: mapsLoc,
                 decoration: InputDecoration(
                   hintText: 'Enter address...',
                   border: InputBorder.none,
@@ -92,11 +108,12 @@ class _MapsState extends State<Maps>{
       Geolocator().placemarkFromAddress(alamat).then((result){
         gmController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
             target: LatLng(result[0].position.latitude, result[0].position.longitude),
-            zoom: 17
+            zoom: 16
         )));
       });
     });
   }
+
 
   void onMapCreated(controller){
     setState(() {
