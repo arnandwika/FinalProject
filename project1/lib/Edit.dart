@@ -310,8 +310,8 @@ class EditState extends State<Edit>{
                   child: RaisedButton(
                     color: blue,
                     onPressed: () async =>{
-                      await updateDb(id, TextJudulController.text, tanggalJam, TextIsiController.text, _LocEditingController.text),
-                      await editFirestore(id, TextJudulController.text, tanggalJam, TextIsiController.text, _LocEditingController.text),
+                      await updateDb(id, TextJudulController.text, tanggalJam, TextIsiController.text, locEditingController2.text),
+                      await editFirestore(id, TextJudulController.text, tanggalJam, TextIsiController.text, locEditingController2.text),
                       await OpenDb(),
                       upload(),
                       print(list),
