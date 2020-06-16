@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project1/Tambah.dart';
 import 'package:project1/main.dart';
+import 'package:project1/Tambah.dart';
 
 class Home extends StatefulWidget{
   @override
@@ -49,6 +50,7 @@ class MyCard extends State<Home>{
         child: new Icon(Icons.add),
         backgroundColor: blue,
         onPressed: (){
+          locEditingController.text="";
           Navigator.push(
             context,
             MaterialPageRoute(
