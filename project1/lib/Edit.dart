@@ -77,7 +77,7 @@ class EditState extends State<Edit>{
     DateTime waktu = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(waktu);
     list = await helper.listReminder(formattedDate);
-}
+  }
   void editFirestore(int id, String judulBaru, String tanggalBaru, String isiBaru, String lokasiBaru) async{
     Map<String, dynamic> temp = new Map<String, dynamic>();
     temp['id'] = id;
@@ -109,7 +109,7 @@ class EditState extends State<Edit>{
   }
   void download() async{
     print(UID+"/"+(id).toString());
-    StorageReference sr = await FirebaseStorage.instance.ref().child("ccafinMxPdNNSYhNJ2s0YrH8aRK2/1");
+    StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+(id).toString());
     String url = await sr.getDownloadURL();
     setState(() {
       path = url;
@@ -363,9 +363,9 @@ class EditState extends State<Edit>{
                       ),
                       Text('Kamera',
                         style: (
-                          TextStyle(
-                              fontSize: 18
-                          )
+                            TextStyle(
+                                fontSize: 18
+                            )
                         ),
                       )
                     ],
@@ -383,9 +383,9 @@ class EditState extends State<Edit>{
                       ),
                       Text('Galeri',
                         style: (
-                          TextStyle(
-                              fontSize: 18
-                          )
+                            TextStyle(
+                                fontSize: 18
+                            )
                         ),
                       ),
                     ],

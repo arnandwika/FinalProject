@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,14 +13,25 @@ import 'DB.dart';
 
 void main() => runApp(ReminderHistory(0,"","",""));
 
-
-
-class ReminderHistory extends StatelessWidget{
+class ReminderHistory extends StatefulWidget {
   int id;
   String judul;
   String isi;
   String tanggal;
   ReminderHistory(this.id, this.judul, this.isi, this.tanggal);
+  @override
+  _ReminderHistoryState createState() => _ReminderHistoryState(this.id, this.judul, this.isi, this.tanggal);
+}
+
+
+class _ReminderHistoryState extends State<ReminderHistory> {
+  int id;
+  String judul;
+  String isi;
+  String tanggal;
+  File image;
+  String path = '';
+  _ReminderHistoryState(this.id, this.judul, this.isi, this.tanggal);
   void hapusData(int id) async{
     DB helper = DB.instance;
     helper.deleteReminder(id);
@@ -26,10 +40,23 @@ class ReminderHistory extends StatelessWidget{
   void hapusFirestore(int id) async{
     await Firestore.instance.collection('reminder').document(id.toString()).delete();
   }
-
+  void download() async{
+    print(UID+"/"+(id).toString());
+    StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+(id).toString());
+    String url = await sr.getDownloadURL();
+    setState(() {
+      path = url;
+      print(url);
+    });
+  }
+  @override
+  void initState(){
+    download();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-      OpenDb();
+    OpenDb();
     return Scaffold(
       appBar: AppBar(
         title: Text("Riwayat"),
@@ -40,14 +67,23 @@ class ReminderHistory extends StatelessWidget{
         child: ListView(
           children: <Widget>[
             Text(
-                "Detail Acara: ",
-                style: TextStyle(fontSize: 23,fontWeight: FontWeight.bold),
+              "Detail Acara: ",
+              style: TextStyle(fontSize: 23,fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: 15,
             ),
             Column(
               children: <Widget>[
+                path!=''?
+                Image.network(path,
+                  width: 200,
+                  height: 200,
+                ):
+                Text("Tidak ada Gambar"),
+                SizedBox(
+                  height: 15,
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
