@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:project1/LoginPage.dart';
@@ -116,10 +117,12 @@ class EditState extends State<Edit>{
       print(url);
     });
   }
+  
 
   @override
   void initState(){
     download();
+    alamatMaps="";
     super.initState();
   }
 

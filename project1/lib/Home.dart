@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:project1/Maps.dart';
 import 'package:project1/Tambah.dart';
 import 'package:project1/main.dart';
 
@@ -11,10 +13,15 @@ class MyCard extends State<Home>{
   int jmlh = listReminder.length;
   List cards = new List.generate(listReminder.length, (int index)=>new StateCard(index)).toList();
 
+  Future getCurrentLocation()async{
+    Position res = await Geolocator().getCurrentPosition();
+    locAwal=res;
+  }
 
   @override
   void initState() {
     getFirestore();
+    getCurrentLocation();
     super.initState();
   }
 

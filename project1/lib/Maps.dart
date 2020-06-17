@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_map_polyline/google_map_polyline.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission/permission.dart';
 import 'package:project1/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:project1/Tambah.dart';
@@ -9,6 +11,7 @@ import 'package:location/location.dart';
 
 String alamatMaps;
 TextEditingController mapsLoc = new TextEditingController();
+Position locAwal;
 
 class Maps extends StatefulWidget{
   @override
@@ -18,16 +21,25 @@ class Maps extends StatefulWidget{
 class _MapsState extends State<Maps>{
   GoogleMapController gmController;
   String alamat;
-  Position locAwal;
   Set<Marker> marker = {};
 
-  Future getCurrentLocation() async{
-    Position res = await Geolocator().getCurrentPosition();
-    setState((){
-      locAwal = res;
-    });
-  }
+  final Set<Polyline> polyline = {};
+  List<LatLng> routes;
+  GoogleMapPolyline gMapPolyline = new GoogleMapPolyline(apiKey: "AIzaSyAdKCiWyCujUa7091QDx9jynVDjQnUQ2C4");
 
+  getRoutes(double lat, double long)async{
+    var permissions = await Permission.getPermissionsStatus([PermissionName.Location]);
+
+    if(permissions[0].permissionStatus == PermissionStatus.notAgain){
+      var askPermission = await Permission.requestPermissions([PermissionName.Location]);
+    }else{
+      routes = await gMapPolyline.getCoordinatesWithLocation(
+        origin: LatLng(locAwal.latitude,locAwal.longitude),
+        destination: LatLng(lat,long),
+        mode: RouteMode.driving,
+      );
+    }
+  }
 
   void updateAlamat(String alamatBaru){
     setState(() {
@@ -42,7 +54,6 @@ class _MapsState extends State<Maps>{
 
   @override
   void initState() {
-    getCurrentLocation();
     super.initState();
   }
   @override
@@ -55,6 +66,8 @@ class _MapsState extends State<Maps>{
         children: <Widget>[
           new GoogleMap(
             onMapCreated: onMapCreated,
+            markers: marker,
+            polylines: polyline,
             mapType: MapType.normal,
             myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
@@ -90,7 +103,9 @@ class _MapsState extends State<Maps>{
             child: new IconButton(
                 icon: Icon(Icons.search),
                 iconSize: 30.0,
-                onPressed: navigate,
+                onPressed: ()async{
+                  navigate();
+                },
             )
           )
         ],
@@ -106,6 +121,12 @@ class _MapsState extends State<Maps>{
   navigate(){
     setState(() {
       Geolocator().placemarkFromAddress(alamat).then((result){
+        getRoutes(result[0].position.latitude, result[0].position.longitude);
+        marker.add(Marker(
+            markerId: MarkerId("Your destination"),
+            position: LatLng(result[0].position.latitude, result[0].position.longitude),
+            icon: BitmapDescriptor.defaultMarker
+        ));
         gmController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
             target: LatLng(result[0].position.latitude, result[0].position.longitude),
             zoom: 15
@@ -118,6 +139,15 @@ class _MapsState extends State<Maps>{
   void onMapCreated(controller){
     setState(() {
       gmController = controller;
+      polyline.add(Polyline(
+        polylineId: PolylineId("route"),
+        visible: true,
+        points: routes,
+        width: 8,
+        color: Colors.blue,
+        startCap: Cap.roundCap,
+        endCap: Cap.buttCap
+      ));
     });
   }
 }

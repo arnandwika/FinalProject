@@ -53,6 +53,6 @@
         </receiver>
         <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyABFeHlzh2L3K4UfqsLp1aglH2azrvmFbk"/>
+            android:value="AIzaSyAdKCiWyCujUa7091QDx9jynVDjQnUQ2C4"/>
     </application>
 </manifest>
