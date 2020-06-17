@@ -236,7 +236,7 @@ class Tambah extends State<StateTambah>{
                     color: blue,
                     child: Text("Tambah Acara", style: TextStyle(color: white, fontSize: 20),),
                     onPressed: () async {
-                      if(_JudulEditingController.text.isNotEmpty&&tanggalJam.isNotEmpty&&_IsiEditingController.text.isNotEmpty&&locEditingController.text.isNotEmpty){
+                      if(_JudulEditingController.text.isNotEmpty&&tanggalJam.isNotEmpty&&_IsiEditingController.text.isNotEmpty&&locEditingController.text.isNotEmpty&&image!=null){
                         await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text, locEditingController.text);
                         await OpenDb();
                         await getFirestore();
