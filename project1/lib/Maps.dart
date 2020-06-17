@@ -17,10 +17,17 @@ class Maps extends StatefulWidget{
 
 class _MapsState extends State<Maps>{
   GoogleMapController gmController;
-
-  Location currentLoc = new Location();
-
   String alamat;
+  Position locAwal;
+  Set<Marker> marker = {};
+
+  Future getCurrentLocation() async{
+    Position res = await Geolocator().getCurrentPosition();
+    setState((){
+      locAwal = res;
+    });
+  }
+
 
   void updateAlamat(String alamatBaru){
     setState(() {
@@ -35,14 +42,7 @@ class _MapsState extends State<Maps>{
 
   @override
   void initState() {
-//    if(alamat==""){
-//      currentLoc.onLocationChanged().listen((now) {
-//        gmController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-//            target: LatLng(now.latitude,now.longitude),
-//            zoom: 16
-//        )));
-//      });
-//    }
+    getCurrentLocation();
     super.initState();
   }
   @override
@@ -58,8 +58,8 @@ class _MapsState extends State<Maps>{
             mapType: MapType.normal,
             myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
-                target: LatLng(-7.803, 110.357),
-                zoom: 14
+                target: LatLng(locAwal.latitude, locAwal.longitude),
+                zoom: 15
             ),
           ),
           new Positioned(
@@ -108,7 +108,7 @@ class _MapsState extends State<Maps>{
       Geolocator().placemarkFromAddress(alamat).then((result){
         gmController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
             target: LatLng(result[0].position.latitude, result[0].position.longitude),
-            zoom: 16
+            zoom: 15
         )));
       });
     });

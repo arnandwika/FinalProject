@@ -236,14 +236,26 @@ class Tambah extends State<StateTambah>{
                     color: blue,
                     child: Text("Tambah Acara", style: TextStyle(color: white, fontSize: 20),),
                     onPressed: () async {
-                      await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text, locEditingController.text);
-                      await OpenDb();
-                      await getFirestore();
-                      alamatMaps="";
-                      upload();
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, '/home');
+                      if(_JudulEditingController.text.isNotEmpty&&tanggalJam.isNotEmpty&&_IsiEditingController.text.isNotEmpty&&locEditingController.text.isNotEmpty){
+                        await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text, locEditingController.text);
+                        await OpenDb();
+                        await getFirestore();
+                        alamatMaps="";
+                        upload();
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, '/home');
+                      }else{
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context){
+                            return AlertDialog(
+                              title: Text("Data Tidak Terisi Semua"),
+                              content: Text("Lengkapi data dahulu"),
+                            );
+                          }
+                        );
+                      }
                     },
                   ),
                 )

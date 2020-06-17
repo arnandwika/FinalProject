@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:project1/LoginPage.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'Maps.dart';
@@ -48,12 +49,14 @@ class HasilEdit{
   String judul;
   String tanggal;
   String isi;
-  HasilEdit({this.judul,this.tanggal,this.isi});
+  String lokasi;
+  HasilEdit({this.judul,this.tanggal,this.isi,this.lokasi});
   Map<String, dynamic> toMap(){
     return{
       'judul': judul,
       'isi': isi,
       'tanggal': tanggal,
+      'lokasi': lokasi,
     };
   }
 }
@@ -74,14 +77,15 @@ class EditState extends State<Edit>{
     DateTime waktu = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(waktu);
     list = await helper.listReminder(formattedDate);
-}
-  void editFirestore(int id, String judulBaru, String tanggalBaru, String isiBaru) async{
+  }
+  void editFirestore(int id, String judulBaru, String tanggalBaru, String isiBaru, String lokasiBaru) async{
     Map<String, dynamic> temp = new Map<String, dynamic>();
     temp['id'] = id;
     temp['judul'] = judulBaru;
     temp['tanggal'] = tanggalBaru;
     temp['isi'] = isiBaru;
-    await Firestore.instance.collection("reminder").document(id.toString()).updateData(temp);
+    temp['lokasi'] = lokasiBaru;
+    await Firestore.instance.collection(loggedInUser.uid).document(id.toString()).updateData(temp);
   }
   final format = DateFormat("d MMMM y HH:mm");
   String tanggalJam="";
@@ -105,7 +109,7 @@ class EditState extends State<Edit>{
   }
   void download() async{
     print(UID+"/"+(id).toString());
-    StorageReference sr = await FirebaseStorage.instance.ref().child("ccafinMxPdNNSYhNJ2s0YrH8aRK2/1");
+    StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+(id).toString());
     String url = await sr.getDownloadURL();
     setState(() {
       path = url;
@@ -307,7 +311,7 @@ class EditState extends State<Edit>{
                     color: blue,
                     onPressed: () async =>{
                       await updateDb(id, TextJudulController.text, tanggalJam, TextIsiController.text, locEditingController2.text),
-                      await editFirestore(id, TextJudulController.text, tanggalJam, TextIsiController.text),
+                      await editFirestore(id, TextJudulController.text, tanggalJam, TextIsiController.text, locEditingController2.text),
                       await OpenDb(),
                       upload(),
                       print(list),
@@ -359,9 +363,9 @@ class EditState extends State<Edit>{
                       ),
                       Text('Kamera',
                         style: (
-                          TextStyle(
-                              fontSize: 18
-                          )
+                            TextStyle(
+                                fontSize: 18
+                            )
                         ),
                       )
                     ],
@@ -379,9 +383,9 @@ class EditState extends State<Edit>{
                       ),
                       Text('Galeri',
                         style: (
-                          TextStyle(
-                              fontSize: 18
-                          )
+                            TextStyle(
+                                fontSize: 18
+                            )
                         ),
                       ),
                     ],
