@@ -18,6 +18,8 @@ class MyCard extends State<Home>{
   void initState() {
     getFirestore();
     super.initState();
+    initializing();
+
   }
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
@@ -26,7 +28,8 @@ class MyCard extends State<Home>{
   InitializationSettings initializationSettings;
 
   void initializing() async {
-    androidInitializationSettings = AndroidInitializationSettings('quinget');
+    print("masuk initializing");
+    androidInitializationSettings = AndroidInitializationSettings('Qu+.png');
     iosInitializationSettings = IOSInitializationSettings(
         onDidReceiveLocalNotification: onDidReceiveLocalNotification);
     initializationSettings = InitializationSettings(
@@ -36,6 +39,7 @@ class MyCard extends State<Home>{
   }
 
   Future onSelectNotification(String payLoad) {
+    print("payload: "+payLoad );
     if (payLoad != null) {
       print(payLoad);
     }
@@ -43,6 +47,7 @@ class MyCard extends State<Home>{
 
   Future onDidReceiveLocalNotification(
       int id, String title, String body, String payload) async {
+    print("masuk onDidReceiveLocalNotification");
     return CupertinoAlertDialog(
       title: Text(title),
       content: Text(body),
@@ -58,10 +63,12 @@ class MyCard extends State<Home>{
     );
   }
   void showNotifications(String s1, String s2, int i) async {
+    print("masuk showNotif");
     await notification(s1,s2,i);
   }
 
   Future<void> notification(String s1, String s2, int i) async {
+    print("masuk notification");
     AndroidNotificationDetails androidNotificationDetails =
     AndroidNotificationDetails(
         'Channel ID', 'Channel title', 'channel body',
@@ -78,10 +85,12 @@ class MyCard extends State<Home>{
   }
 
   void showScheduledNotifications(String s1, String s2, int i, alarm) async {
+    print("masuk showScheduledNotifications");
     await scheduledNotification(s1,s2,i, alarm);
   }
 
   Future<void> scheduledNotification(String s1, String s2, int i, alarm) async {
+    print("masuk scheduledNotifications");
     var scheduledTime = DateTime.now().add(Duration(seconds: alarm));
     print("scheduled time: "+scheduledTime.toString());
     AndroidNotificationDetails androidNotificationDetails =
@@ -98,6 +107,7 @@ class MyCard extends State<Home>{
   }
 
   Future<void> cekSisa(String tgl,int i) async{
+    print("masuk cekSisa");
     DateTime waktu = DateTime.now();
     DateTime pembanding = convertDateFromString(tgl);
     print("tanggal sekarang: "+waktu.toString());
@@ -106,6 +116,7 @@ class MyCard extends State<Home>{
       print("beda detik reminder "+i.toString()+" "+diff.inSeconds.toString());
       int alarm = (diff.inSeconds - diff.inSeconds - diff.inSeconds) - 86400;
       String gabungan = "Akan berlangsung pada ${tgl}";
+      print("alarm: "+alarm.toString());
       if(alarm>=0){
         await showScheduledNotifications(listReminder[i]['judul'].toString(),gabungan,i,alarm);
       }else{
@@ -114,6 +125,7 @@ class MyCard extends State<Home>{
     }
   }
   void notif() async{
+    print("masuk notif");
     await OpenDb();
     await getFirestore();
     await historyFirestore();

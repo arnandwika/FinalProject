@@ -109,7 +109,7 @@ class EditState extends State<Edit>{
   }
   void download() async{
     print(UID+"/"+(id).toString());
-    StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+(id).toString());
+    StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+(id+1).toString());
     String url = await sr.getDownloadURL();
     setState(() {
       path = url;
