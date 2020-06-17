@@ -7,6 +7,8 @@ import 'package:date_format/date_format.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:project1/MapsReminder.dart';
 
 import 'Edit.dart';
 import 'LoginPage.dart';
@@ -53,10 +55,19 @@ class _ReminderState extends State<Reminder> {
       print(url);
     });
   }
+
+  void getLatLong()async{
+    Geolocator().placemarkFromAddress(lokasi).then((result){
+      latR=result[0].position.latitude;
+      longR=result[0].position.longitude;
+    });
+  }
+
   @override
   void initState(){
     download();
     super.initState();
+    getLatLong();
   }
   @override
   Widget build(BuildContext context) {
@@ -215,6 +226,15 @@ class _ReminderState extends State<Reminder> {
                           fontSize: 20,
                         ),
                       ),
+                    ),
+                    Positioned(
+                      right: 20,
+                      child: IconButton(
+                        icon: Icon(Icons.map),
+                        onPressed: (){
+                          MyNavigator.openMapR(context);
+                        },
+                      )
                     )
                   ],
                 ),

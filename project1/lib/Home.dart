@@ -6,6 +6,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:project1/Tambah.dart';
 import 'package:project1/main.dart';
 
+import 'MapsReminder.dart';
+
 class Home extends StatefulWidget{
   @override
   MyCard createState()=> new MyCard();
@@ -18,6 +20,7 @@ class MyCard extends State<Home>{
   Future getCurrentLocation()async{
     Position res = await Geolocator().getCurrentPosition();
     locAwal=res;
+    locAwalR=res;
   }
 
   @override
