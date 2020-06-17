@@ -34,7 +34,7 @@ Color blue = Colors.blue;
 Color black = Colors.black;
 Color white = Colors.white;
 Color gray = Colors.black12;
-int id=0;
+int id;
 String UID = "";
 
 class MyApp extends StatelessWidget {
@@ -253,6 +253,7 @@ Future historyFirestore() async{
         temp['judul'] = d['judul'];
         temp['tanggal'] = d['tanggal'];
         temp['isi'] = d['isi'];
+        temp['lokasi']= d['lokasi'];
         print("ini datanya "+temp['judul']);
         listHistory.add(temp);
       });
@@ -270,7 +271,7 @@ class CardHistory extends StatelessWidget {
           onTap: ()=>{
             Navigator.push(context, MaterialPageRoute(
               builder: (context) =>ReminderHistory(
-                  listHistory[i]['id'],listHistory[i]['judul'],listHistory[i]['isi'],listHistory[i]['tanggal']
+                  listHistory[i]['id'],listHistory[i]['judul'],listHistory[i]['isi'],listHistory[i]['tanggal'],listHistory[i]['lokasi']
               ),
             ),
             ),

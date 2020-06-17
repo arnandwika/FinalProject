@@ -11,16 +11,17 @@ import 'main.dart';
 import 'DB.dart';
 
 
-void main() => runApp(ReminderHistory(0,"","",""));
+void main() => runApp(ReminderHistory(0,"","","",""));
 
 class ReminderHistory extends StatefulWidget {
   int id;
   String judul;
   String isi;
   String tanggal;
-  ReminderHistory(this.id, this.judul, this.isi, this.tanggal);
+  String lokasi;
+  ReminderHistory(this.id, this.judul, this.isi, this.tanggal,this.lokasi);
   @override
-  _ReminderHistoryState createState() => _ReminderHistoryState(this.id, this.judul, this.isi, this.tanggal);
+  _ReminderHistoryState createState() => _ReminderHistoryState(this.id, this.judul, this.isi, this.tanggal,this.lokasi);
 }
 
 
@@ -29,9 +30,10 @@ class _ReminderHistoryState extends State<ReminderHistory> {
   String judul;
   String isi;
   String tanggal;
+  String lokasi;
   File image;
   String path = '';
-  _ReminderHistoryState(this.id, this.judul, this.isi, this.tanggal);
+  _ReminderHistoryState(this.id, this.judul, this.isi, this.tanggal,this.lokasi);
   void hapusData(int id) async{
     DB helper = DB.instance;
     helper.deleteReminder(id);
@@ -197,7 +199,7 @@ class _ReminderHistoryState extends State<ReminderHistory> {
                     Text(": "),
                     Expanded(
                       child: Text(
-                        "-",
+                        lokasi,
                         style: TextStyle(
                           fontSize: 20,
                         ),

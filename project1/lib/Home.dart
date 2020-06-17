@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:project1/Tambah.dart';
 import 'package:project1/main.dart';
 
@@ -17,10 +19,115 @@ class MyCard extends State<Home>{
     getFirestore();
     super.initState();
   }
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+  AndroidInitializationSettings androidInitializationSettings;
+  IOSInitializationSettings iosInitializationSettings;
+  InitializationSettings initializationSettings;
 
+  void initializing() async {
+    androidInitializationSettings = AndroidInitializationSettings('quinget');
+    iosInitializationSettings = IOSInitializationSettings(
+        onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    initializationSettings = InitializationSettings(
+        androidInitializationSettings, iosInitializationSettings);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+  }
+
+  Future onSelectNotification(String payLoad) {
+    if (payLoad != null) {
+      print(payLoad);
+    }
+  }
+
+  Future onDidReceiveLocalNotification(
+      int id, String title, String body, String payload) async {
+    return CupertinoAlertDialog(
+      title: Text(title),
+      content: Text(body),
+      actions: <Widget>[
+        CupertinoDialogAction(
+            isDefaultAction: true,
+            onPressed: () {
+              print("");
+            },
+            child: Text("Okay")
+        ),
+      ],
+    );
+  }
+  void showNotifications(String s1, String s2, int i) async {
+    await notification(s1,s2,i);
+  }
+
+  Future<void> notification(String s1, String s2, int i) async {
+    AndroidNotificationDetails androidNotificationDetails =
+    AndroidNotificationDetails(
+        'Channel ID', 'Channel title', 'channel body',
+        priority: Priority.High,
+        importance: Importance.Max,
+        ticker: 'test');
+
+    IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+
+    NotificationDetails notificationDetails =
+    NotificationDetails(androidNotificationDetails, iosNotificationDetails);
+    await flutterLocalNotificationsPlugin.show(
+        i, s1, s2, notificationDetails);
+  }
+
+  void showScheduledNotifications(String s1, String s2, int i, alarm) async {
+    await scheduledNotification(s1,s2,i, alarm);
+  }
+
+  Future<void> scheduledNotification(String s1, String s2, int i, alarm) async {
+    var scheduledTime = DateTime.now().add(Duration(seconds: alarm));
+    print("scheduled time: "+scheduledTime.toString());
+    AndroidNotificationDetails androidNotificationDetails =
+    AndroidNotificationDetails(
+        'Channel ID', 'Channel title', 'channel body',
+        priority: Priority.High,
+        importance: Importance.Max,
+        ticker: 'test');
+    IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+    NotificationDetails notificationDetails =
+    NotificationDetails(androidNotificationDetails, iosNotificationDetails);
+    await flutterLocalNotificationsPlugin.schedule(
+        i, s1, s2,scheduledTime, notificationDetails);
+  }
+
+  Future<void> cekSisa(String tgl,int i) async{
+    DateTime waktu = DateTime.now();
+    DateTime pembanding = convertDateFromString(tgl);
+    print("tanggal sekarang: "+waktu.toString());
+    Duration diff= waktu.difference(pembanding);
+    if(diff.inSeconds>=-259200 && diff.inSeconds<=0){
+      print("beda detik reminder "+i.toString()+" "+diff.inSeconds.toString());
+      int alarm = (diff.inSeconds - diff.inSeconds - diff.inSeconds) - 86400;
+      String gabungan = "Akan berlangsung pada ${tgl}";
+      if(alarm>=0){
+        await showScheduledNotifications(listReminder[i]['judul'].toString(),gabungan,i,alarm);
+      }else{
+        await showNotifications(listReminder[i]['judul'].toString(),gabungan,i);
+      }
+    }
+  }
+  void notif() async{
+    await OpenDb();
+    await getFirestore();
+    await historyFirestore();
+    if(listReminder.length!=null){
+      for(int i=0; i<listReminder.length;i++){
+        print("tanggal: "+listReminder[i]['tanggal'].toString());
+        cekSisa(listReminder[i]['tanggal'].toString(), i);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    notif();
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('Quinget Reminder'),
