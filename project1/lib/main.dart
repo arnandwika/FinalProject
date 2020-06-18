@@ -36,6 +36,7 @@ Color black = Colors.black;
 Color white = Colors.white;
 Color gray = Colors.black12;
 int id;
+int idTambah;
 String UID = "";
 
 class MyApp extends StatelessWidget {
@@ -120,14 +121,14 @@ Future getFirestore() async{
 }
 
 Future addFirestore(String tjudul, String ttanggal, String tisi, String tlokasi) async{
-  await Firestore.instance.collection(loggedInUser.uid).document((id+1).toString()).setData({
+  await Firestore.instance.collection(loggedInUser.uid).document((id).toString()).setData({
     'id': id,
     'judul': tjudul,
     'tanggal': ttanggal,
     'isi': tisi,
     'lokasi': tlokasi
   });
-  id++;
+//  id++;
 }
 Future InsertDb(String judul, String tanggal, String isi, String lokasi) async{
   DB helper = DB.instance;
@@ -180,6 +181,7 @@ class CustomCard extends State<StateCard> {
         onTap: (){
           Navigator.of(context).push(MaterialPageRoute<String>(
               builder: (BuildContext context) {
+                print("id reminder: "+listReminder[i]['id'].toString());
                 return Reminder(
                     listReminder[i]['id'],listReminder[i]['judul'],listReminder[i]['isi'],listReminder[i]['tanggal'],listReminder[i]['lokasi']
                 );

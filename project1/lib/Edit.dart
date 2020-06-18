@@ -110,7 +110,7 @@ class EditState extends State<Edit>{
   }
   void download() async{
     print(UID+"/"+(id).toString());
-    StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+(id+1).toString());
+    StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+(id).toString());
     String url = await sr.getDownloadURL();
     setState(() {
       path = url;
@@ -129,7 +129,7 @@ class EditState extends State<Edit>{
   @override
   Widget build(BuildContext context) {
     HasilEdit h1;
-    tanggalJam= listReminder[id]['tanggal'];
+    tanggalJam= tanggal;
     TextJudulController.text = this.judul;
     TextIsiController.text = this.deskripsi;
     locEditingController2.text = this.lokasi;
@@ -314,7 +314,7 @@ class EditState extends State<Edit>{
                   child: RaisedButton(
                     color: blue,
                     onPressed: () async =>{
-                      if( TextJudulController.text.isNotEmpty&&tanggalJam!=null&& TextIsiController.text.isNotEmpty&&locEditingController2.text.isNotEmpty&&image!=null){
+                      if( TextJudulController.text.isNotEmpty&&tanggalJam!=null&& TextIsiController.text.isNotEmpty&&locEditingController2.text.isNotEmpty){
                         await updateDb(id, TextJudulController.text, tanggalJam, TextIsiController.text, locEditingController2.text),
                         await editFirestore(id, TextJudulController.text, tanggalJam, TextIsiController.text, locEditingController2.text),
                         await OpenDb(),

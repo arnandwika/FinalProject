@@ -27,8 +27,9 @@ class MyCard extends State<Home>{
   void initState() {
     if(listReminder.length==0){
       id=0;
+      idTambah=0;
     }else{
-      id= listReminder[listReminder.length-1]['id'];
+      idTambah= listReminder[listReminder.length-1]['id']+1;
     }
     getFirestore();
     getCurrentLocation();

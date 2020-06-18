@@ -48,7 +48,7 @@ class _ReminderState extends State<Reminder> {
   }
   void download() async{
     print(UID+"/"+(id).toString());
-    StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+(id+1).toString()); //sementara
+    StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+(id).toString()); //sementara
     String url = await sr.getDownloadURL();
     setState(() {
       path = url;

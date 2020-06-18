@@ -52,6 +52,7 @@ class Tambah extends State<StateTambah>{
   void upload() async{
     StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+id.toString());
     await sr.putFile(image);
+    id++;
   }
   void download() async{
     StorageReference sr = await FirebaseStorage.instance.ref().child(UID+"/"+id.toString());

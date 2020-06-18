@@ -9,6 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:project1/Tambah.dart';
 import 'package:location/location.dart';
 
+import 'Edit.dart';
+
 String alamatMaps;
 TextEditingController mapsLoc = new TextEditingController();
 Position locAwal;
@@ -49,6 +51,7 @@ class _MapsState extends State<Maps>{
   void setAlamat(){
     alamatMaps=alamat;
     locEditingController.text = alamatMaps;
+    locEditingController2.text = alamatMaps;
     Navigator.pop(context, "/tambah");
   }
 
