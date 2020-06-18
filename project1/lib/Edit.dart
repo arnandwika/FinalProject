@@ -314,14 +314,27 @@ class EditState extends State<Edit>{
                   child: RaisedButton(
                     color: blue,
                     onPressed: () async =>{
-                      await updateDb(id, TextJudulController.text, tanggalJam, TextIsiController.text, locEditingController2.text),
-                      await editFirestore(id, TextJudulController.text, tanggalJam, TextIsiController.text, locEditingController2.text),
-                      await OpenDb(),
-                      upload(),
-                      print(list),
-                      Navigator.pop(context),
-                      Navigator.pop(context),
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Reminder(id,TextJudulController.text,TextIsiController.text,tanggalJam,locEditingController2.text)))
+                      if( TextJudulController.text.isNotEmpty&&tanggalJam!=null&& TextIsiController.text.isNotEmpty&&locEditingController2.text.isNotEmpty&&image!=null){
+                        await updateDb(id, TextJudulController.text, tanggalJam, TextIsiController.text, locEditingController2.text),
+                        await editFirestore(id, TextJudulController.text, tanggalJam, TextIsiController.text, locEditingController2.text),
+                        await OpenDb(),
+                        upload(),
+                        print(list),
+                        Navigator.pop(context),
+                        Navigator.pop(context),
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Reminder(id,TextJudulController.text,TextIsiController.text,tanggalJam,locEditingController2.text)))
+                      }else{
+                            showDialog(
+                            context: context,
+                            builder: (BuildContext context){
+                              return AlertDialog(
+                                title: Text("Data Tidak Terisi Semua"),
+                                content: Text("Lengkapi data dahulu"),
+                              );
+                            }
+                        )
+                      }
+
                     },
                     child: Text("Save",style: TextStyle(color: white, fontSize: 20),),
                   ),
