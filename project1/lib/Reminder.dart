@@ -55,7 +55,9 @@ class _ReminderState extends State<Reminder> {
       print(url);
     });
   }
-
+  void deleteFoto() async{
+    await FirebaseStorage.instance.ref().child(UID+"/"+(id).toString()).delete(); //sementara
+  }
   void getLatLong()async{
     Geolocator().placemarkFromAddress(lokasi).then((result){
       latR=result[0].position.latitude;
@@ -263,6 +265,7 @@ class _ReminderState extends State<Reminder> {
                     onPressed: () async => {
                       await hapusData(id),
                       await hapusFirestore(id),
+                      await deleteFoto(),
                       Navigator.pop(context),
                       Navigator.pop(context),
                       await OpenDb(),
