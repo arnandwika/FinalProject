@@ -44,7 +44,7 @@ class MyCard extends State<Home>{
 
   void initializing() async {
     print("masuk initializing");
-    androidInitializationSettings = AndroidInitializationSettings('Qu+.png');
+    androidInitializationSettings = AndroidInitializationSettings('mipmap/ic_launcher');
     iosInitializationSettings = IOSInitializationSettings(
         onDidReceiveLocalNotification: onDidReceiveLocalNotification);
     initializationSettings = InitializationSettings(

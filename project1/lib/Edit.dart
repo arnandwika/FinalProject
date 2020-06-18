@@ -129,6 +129,7 @@ class EditState extends State<Edit>{
   @override
   Widget build(BuildContext context) {
     HasilEdit h1;
+    tanggalJam= listReminder[id]['tanggal'];
     TextJudulController.text = this.judul;
     TextIsiController.text = this.deskripsi;
     locEditingController2.text = this.lokasi;

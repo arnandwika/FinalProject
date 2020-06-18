@@ -227,15 +227,12 @@ class _ReminderState extends State<Reminder> {
                         ),
                       ),
                     ),
-                    Positioned(
-                      right: 20,
-                      child: IconButton(
+                    IconButton(
                         icon: Icon(Icons.map),
                         onPressed: (){
                           MyNavigator.openMapR(context);
                         },
                       )
-                    )
                   ],
                 ),
                 SizedBox(

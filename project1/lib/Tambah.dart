@@ -24,7 +24,7 @@ class Tambah extends State<StateTambah>{
     super.initState();
     alamatMaps="";
   }
-  String tanggalJam=" ";
+  String tanggalJam;
   ObjectReminder objectInsert;
   final _JudulEditingController = TextEditingController();
   final _IsiEditingController = TextEditingController();
@@ -237,7 +237,7 @@ class Tambah extends State<StateTambah>{
                     color: blue,
                     child: Text("Tambah Acara", style: TextStyle(color: white, fontSize: 20),),
                     onPressed: () async {
-                      if(_JudulEditingController.text.isNotEmpty&&tanggalJam.isNotEmpty&&_IsiEditingController.text.isNotEmpty&&locEditingController.text.isNotEmpty&&image!=null){
+                      if(_JudulEditingController.text.isNotEmpty&&tanggalJam!=null&&_IsiEditingController.text.isNotEmpty&&locEditingController.text.isNotEmpty&&image!=null){
                         await InsertDb(_JudulEditingController.text, tanggalJam, _IsiEditingController.text, locEditingController.text);
                         await OpenDb();
                         await getFirestore();
