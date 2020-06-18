@@ -9,6 +9,7 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:project1/FirstPage.dart';
 import 'package:project1/Home.dart';
+import 'package:project1/MapsReminder.dart';
 import 'package:project1/Reminder.dart';
 import 'package:project1/Splash2.dart';
 import 'Maps.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
           '/history': (context) => History(),
           '/listFoto': (context) => listFoto(0),
           '/map': (context) => Maps(),
+          '/mapR': (context) => MapsReminder(),
           '/tambah': (context) => StateTambah()
         }
     );
@@ -74,6 +76,9 @@ class MyNavigator {
   }
   static void backTambah(BuildContext context){
     Navigator.pop(context, "/tambah");
+  }
+  static void openMapR(BuildContext context){
+    Navigator.pushNamed(context, "/mapR");
   }
 }
 

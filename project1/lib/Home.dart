@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:project1/Maps.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:project1/Tambah.dart';
 import 'package:project1/main.dart';
+
+import 'MapsReminder.dart';
 
 class Home extends StatefulWidget{
   @override
@@ -13,10 +17,16 @@ class MyCard extends State<Home>{
   int jmlh = listReminder.length;
   List cards = new List.generate(listReminder.length, (int index)=>new StateCard(index)).toList();
 
+  Future getCurrentLocation()async{
+    Position res = await Geolocator().getCurrentPosition();
+    locAwal=res;
+    locAwalR=res;
+  }
 
   @override
   void initState() {
     getFirestore();
+    getCurrentLocation();
     super.initState();
     initializing();
 
