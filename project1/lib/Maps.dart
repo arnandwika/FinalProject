@@ -25,23 +25,23 @@ class _MapsState extends State<Maps>{
   String alamat;
   Set<Marker> marker = {};
 
-  final Set<Polyline> polyline = {};
-  List<LatLng> routes;
-  GoogleMapPolyline gMapPolyline = new GoogleMapPolyline(apiKey: "AIzaSyAdKCiWyCujUa7091QDx9jynVDjQnUQ2C4");
+//  final Set<Polyline> polyline = {};
+//  List<LatLng> routes;
+//  GoogleMapPolyline gMapPolyline = new GoogleMapPolyline(apiKey: "AIzaSyAdKCiWyCujUa7091QDx9jynVDjQnUQ2C4");
 
-  getRoutes(double lat, double long)async{
-    var permissions = await Permission.getPermissionsStatus([PermissionName.Location]);
-
-    if(permissions[0].permissionStatus == PermissionStatus.notAgain){
-      var askPermission = await Permission.requestPermissions([PermissionName.Location]);
-    }else{
-      routes = await gMapPolyline.getCoordinatesWithLocation(
-        origin: LatLng(locAwal.latitude,locAwal.longitude),
-        destination: LatLng(lat,long),
-        mode: RouteMode.driving,
-      );
-    }
-  }
+//  getRoutes(double lat, double long)async{
+//    var permissions = await Permission.getPermissionsStatus([PermissionName.Location]);
+//
+//    if(permissions[0].permissionStatus == PermissionStatus.notAgain){
+//      var askPermission = await Permission.requestPermissions([PermissionName.Location]);
+//    }else{
+//      routes = await gMapPolyline.getCoordinatesWithLocation(
+//        origin: LatLng(locAwal.latitude,locAwal.longitude),
+//        destination: LatLng(lat,long),
+//        mode: RouteMode.driving,
+//      );
+//    }
+//  }
 
   void updateAlamat(String alamatBaru){
     setState(() {
@@ -70,7 +70,7 @@ class _MapsState extends State<Maps>{
           new GoogleMap(
             onMapCreated: onMapCreated,
             markers: marker,
-            polylines: polyline,
+//            polylines: polyline,
             mapType: MapType.normal,
             myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
@@ -124,7 +124,7 @@ class _MapsState extends State<Maps>{
   navigate(){
     setState(() {
       Geolocator().placemarkFromAddress(alamat).then((result){
-        getRoutes(result[0].position.latitude, result[0].position.longitude);
+//        getRoutes(result[0].position.latitude, result[0].position.longitude);
         marker.add(Marker(
             markerId: MarkerId("Your destination"),
             position: LatLng(result[0].position.latitude, result[0].position.longitude),
@@ -142,15 +142,15 @@ class _MapsState extends State<Maps>{
   void onMapCreated(controller){
     setState(() {
       gmController = controller;
-      polyline.add(Polyline(
-        polylineId: PolylineId("route"),
-        visible: true,
-        points: routes,
-        width: 8,
-        color: Colors.blue,
-        startCap: Cap.roundCap,
-        endCap: Cap.buttCap
-      ));
+//      polyline.add(Polyline(
+//        polylineId: PolylineId("route"),
+//        visible: true,
+//        points: routes,
+//        width: 8,
+//        color: Colors.blue,
+//        startCap: Cap.roundCap,
+//        endCap: Cap.buttCap
+//      ));
     });
   }
 }

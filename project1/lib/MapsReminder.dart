@@ -25,29 +25,29 @@ class _MapsReminderState extends State<MapsReminder>{
   String alamatR;
   Set<Marker> markerR = {};
 
-  final Set<Polyline> polylineR = {};
-  List<LatLng> routesR;
-  GoogleMapPolyline gMapPolylineR = new GoogleMapPolyline(apiKey: "AIzaSyAdKCiWyCujUa7091QDx9jynVDjQnUQ2C4");
-
-  getRoutes()async{
-    await setState(() async{
-      var permissions = await Permission.getPermissionsStatus([PermissionName.Location]);
-
-      if(permissions[0].permissionStatus == PermissionStatus.notAgain){
-        var askPermission = await Permission.requestPermissions([PermissionName.Location]);
-      }else{
-        routesR = await gMapPolylineR.getCoordinatesWithLocation(
-          origin: LatLng(locAwalR.latitude,locAwalR.longitude),
-          destination: LatLng(latR,longR),
-          mode: RouteMode.driving,
-        );
-      }
-    });
-  }
+//  final Set<Polyline> polylineR = {};
+//  List<LatLng> routesR;
+//  GoogleMapPolyline gMapPolylineR = new GoogleMapPolyline(apiKey: "AIzaSyAdKCiWyCujUa7091QDx9jynVDjQnUQ2C4");
+//
+//  getRoutes()async{
+//    await setState(() async{
+//      var permissions = await Permission.getPermissionsStatus([PermissionName.Location]);
+//
+//      if(permissions[0].permissionStatus == PermissionStatus.notAgain){
+//        var askPermission = await Permission.requestPermissions([PermissionName.Location]);
+//      }else{
+//        routesR = await gMapPolylineR.getCoordinatesWithLocation(
+//          origin: LatLng(locAwalR.latitude,locAwalR.longitude),
+//          destination: LatLng(latR,longR),
+//          mode: RouteMode.driving,
+//        );
+//      }
+//    });
+//  }
 
   @override
   void initState() {
-    getRoutes();
+//    getRoutes();
     markerR.add(Marker(
         markerId: MarkerId("Your destination"),
         position: LatLng(latR, longR),
@@ -66,7 +66,7 @@ class _MapsReminderState extends State<MapsReminder>{
           new GoogleMap(
             onMapCreated: onMapCreated,
             markers: markerR,
-            polylines: polylineR,
+//            polylines: polylineR,
             mapType: MapType.normal,
             myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
@@ -83,15 +83,15 @@ class _MapsReminderState extends State<MapsReminder>{
   void onMapCreated(controller){
     setState(() {
       gmControllerR = controller;
-      polylineR.add(Polyline(
-          polylineId: PolylineId("route"),
-          visible: true,
-          points: routesR,
-          width: 8,
-          color: Colors.blue,
-          startCap: Cap.roundCap,
-          endCap: Cap.buttCap
-      ));
+//      polylineR.add(Polyline(
+//          polylineId: PolylineId("route"),
+//          visible: true,
+//          points: routesR,
+//          width: 8,
+//          color: Colors.blue,
+//          startCap: Cap.roundCap,
+//          endCap: Cap.buttCap
+//      ));
     });
   }
 }
