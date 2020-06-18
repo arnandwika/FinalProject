@@ -12,6 +12,7 @@ import 'package:project1/Home.dart';
 import 'package:project1/MapsReminder.dart';
 import 'package:project1/Reminder.dart';
 import 'package:project1/Splash2.dart';
+import 'About.dart';
 import 'Maps.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -56,7 +57,8 @@ class MyApp extends StatelessWidget {
           '/listFoto': (context) => listFoto(0),
           '/map': (context) => Maps(),
           '/mapR': (context) => MapsReminder(),
-          '/tambah': (context) => StateTambah()
+          '/tambah': (context) => StateTambah(),
+          '/about': (context) => About(),
         }
     );
   }

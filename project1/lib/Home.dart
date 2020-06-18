@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:project1/LoginPage.dart';
 import 'package:project1/Maps.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:project1/Tambah.dart';
@@ -14,6 +16,7 @@ class Home extends StatefulWidget{
 }
 
 class MyCard extends State<Home>{
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int jmlh = listReminder.length;
   List cards = new List.generate(listReminder.length, (int index)=>new StateCard(index)).toList();
 
@@ -160,25 +163,55 @@ class MyCard extends State<Home>{
         appBar: new AppBar(
           title: new Text('Quinget Reminder'),
           backgroundColor: blue,
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.history),
-              iconSize: 30,
-              onPressed: () async =>{
-                await historyFirestore(),
-                Navigator.pushNamed(context, '/history')
-              },
-            ),
-//          IconButton(
-//            icon: Icon(Icons.refresh),
-//            onPressed: (){
-//              Navigator.popAndPushNamed(context, '/home');
-//            },
-//          ),
-            SizedBox(
-              width: 15,
+        ),
+        drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                DrawerHeader(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+//                      Image.asset('img/Qu+.png', width: 150, height: 150,),
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(loggedInUser.photoUrl),
+                        radius: 50,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(loggedInUser.displayName,
+                          style: TextStyle(fontSize: 30, color: Colors.white),
+                      )
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(Icons.history, size: 50, color: blue,),
+                  title: Text(
+                    "History", style: TextStyle(fontSize: 20, color: blue), textAlign: TextAlign.start,
+                  ),
+                  onTap: () async =>{
+                    await historyFirestore(),
+                    Navigator.pushNamed(context, '/history')
+                  },
+                ),
+                Divider(),
+                ListTile(
+                  leading: Icon(Icons.info, size: 50, color: blue,),
+                  title: Text(
+                    "About", style: TextStyle(fontSize: 20, color: blue), textAlign: TextAlign.start,
+                  ),
+                  onTap: (){
+                    Navigator.pushNamed(context, '/about');
+                  },
+                ),
+              ],
             )
-          ],
         ),
         body: RefreshIndicator(
           onRefresh: () async {

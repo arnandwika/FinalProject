@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   }
   
   Future<FirebaseUser> googleSignIn() async{
-    GoogleSignInAccount gsia = await GoogleSignIn().signIn();
+    final GoogleSignInAccount gsia = await GoogleSignIn().signIn();
     GoogleSignInAuthentication gsiauth = await gsia.authentication;
     
     AuthCredential credential = GoogleAuthProvider.getCredential(
