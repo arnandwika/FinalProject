@@ -25,6 +25,11 @@ class MyCard extends State<Home>{
 
   @override
   void initState() {
+    if(listReminder.length==0){
+      id=0;
+    }else{
+      id= listReminder[listReminder.length-1]['id']+1;
+    }
     getFirestore();
     getCurrentLocation();
     super.initState();
