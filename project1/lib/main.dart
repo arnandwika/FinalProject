@@ -120,7 +120,7 @@ Future getFirestore() async{
 }
 
 Future addFirestore(String tjudul, String ttanggal, String tisi, String tlokasi) async{
-  await Firestore.instance.collection(loggedInUser.uid).document(id.toString()).setData({
+  await Firestore.instance.collection(loggedInUser.uid).document((id+1).toString()).setData({
     'id': id,
     'judul': tjudul,
     'tanggal': ttanggal,
